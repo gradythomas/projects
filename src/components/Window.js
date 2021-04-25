@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Home from './HomePage'
 import Sampler from './SamplerPage'
 import Nugs from './NugsPage'
+import Motor from './MotorPage'
+import Music from './MusicPage'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,9 @@ export default function WindowFrame() {
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
-      2: 'nugs.net Web App Exploit'
+      2: 'nugs.net Web App Exploit',
+      3: '6.A01 Brushless Motor',
+      4: 'Recorded Music'
     }
 
     return (
@@ -65,6 +69,8 @@ export default function WindowFrame() {
           {currPage == 0 && <Home /> }
           {currPage == 1 && <Sampler /> }
           {currPage == 2 && <Nugs /> }
+          {currPage == 3 && <Motor />}
+          {currPage == 4 && <Music />}
         </Container>
       </>
     )
