@@ -2,7 +2,7 @@
   "name": "react-gh-pages",
   "version": "0.1.0",
   "private": false,
-  "homepage": "http://gradythomas.github.io/react-gh-pages",
+  "homepage": "http://gradythomas.github.io/projects",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
