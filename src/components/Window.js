@@ -65,7 +65,7 @@ export default function WindowFrame() {
             </Menu>
           </Toolbar>
         </AppBar>
-        <Container style={{ padding: 40, backgroundColor:'#8AC6D0', height: '100vh' }} maxWidth='md'>
+        <Container style={{ padding: 40, backgroundColor:'#8AC6D0', height: '120vh' }} maxWidth='md'>
           {currPage == 0 && <Home /> }
           {currPage == 1 && <Sampler /> }
           {currPage == 2 && <Nugs /> }
