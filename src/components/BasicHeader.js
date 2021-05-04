@@ -15,8 +15,8 @@ export default function BasicHeader(props) {
     const styles = useStyles()
 
     return (
-        <Typography className={styles.blogHeader} variant='h4'>
-            {props.text}
+        <Typography className={styles.blogHeader} variant='h5'>
+            <b>{props.text}</b>
         </Typography>
     )
 }

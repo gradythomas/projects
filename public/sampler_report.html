@@ -1,0 +1,571 @@
+<meta charset="utf-8" emacsmode="-*- markdown -*-"> <link rel="stylesheet" href="https://casual-effects.com/markdeep/latest/journal.css?">
+
+**Sampler**
+    Final Project Report: Team 82
+    Isabel Rosa, Grady Thomas, Arvid Lunnemark, Kelsey Merrill, Zoe Marschner
+    *isrosa, gradyt, arvid, kmerrill, zoem*
+
+![Final Video](https://youtu.be/D0RY7BqFPo0)
+
+# Overview
+
+For our final project, we decided to make a sampler instrument. The basic premise is that the user can record a sound (the sample), then play that sound as different notes
+on a capactive touch keyboard. To do so, the sample is sent to the server, where a python script pitch shifts it to the 12 notes of the chromatic scale, where the root note is
+the original recording. This new audio data is then sent back to the ESP32, where the user is able to play notes and play with other users in party mode, record songs in create mode,
+and browse others creations in play mode.
+
+When a sound is recorded and sent to the server, the raw audio data of all 12 notes is stored in a raw binary file. Then, wav files for each note are synthesized from the raw data and
+stored in folder. Finally, the paths to all of these files are stored in the sounds database. When a song is recorded and sent to the server, it is represented as a sound id, a series of pitch numbers,
+and time data showing their spacing. Then a wav file of the song is synthesized from this data. Finally, the raw song data and the path to the wav file is stored in the sounds database. You can browse the wav
+files stored on the server at these links:
+
+[Sounds](http://608dev-2.net/sandbox/sc/team082/sampler/server/sounds),
+[Songs](http://608dev-2.net/sandbox/sc/team082/sampler/server/allsongs)
+
+************************************************************************************************************************************************************
+*                                                  +---------------+                                                                                       *
+*                  +-------------------------------+  Choose Mode  +---------------------------------------------------------------------+                 *
+*                  |                               +--------+--+---+                                                                     |                 *
+*                  |                                        |  |                                                                         |                 *
+*                  |                                        |  +-------------------------------+                                         |                 *
+*                  |                                        |                                  |                                         |                 *
+*                  v                                        v                                  v                                         v                 *
+*           +------+-----+                                 ++-----------+                +-----+----+                              +-----+------+          *
+*           |            |                                 |            |                |          |                              |            |          *
+*           |   Record   |                                 |  Create    |                |  Play    |                              |   Party    |          *
+*           |            |                                 |            |                |          |                              |            |          *
+*           +-----+------+                +--------------->+----+-------+                +-----+----+                              +-----+------+          *
+*                 |                       |                     |                              |                                         |                 *
+*                 |                       |            +--------+                              |                                         |                 *
+*                 v                       |            v                                +------+--------------+                          |                 *
+*           +-----+-------+               |     +------+-----------------+              | Browse songs on     |               +----------+--------------+  *
+*           |Choose Sound |               |     |Play selected sound with|              | server with ESP32   +<-----+        | Play notes on           |  *
+*           +----+---+----+               |     |touch keyboard          |              | interface           |      |        | keyboard and hear notes |  *
+*                |   |                    |     +-------+----------------+              +------+--------------+      |        | from anyone else in     |  *
+*         +------+   +------+             |             |                                      |                     |        | party mode              |  *
+*         |                 |             |             |                                      v                     |        +---------+---------------+  *
+*         |                 |             |     +-----------------+                     +------+-----------------+   |                  |                  *
+*         v                 v             |     | Record|Playing  |                     | Select song and        |   |                  |                  *
+*  +------+---------+ +-----+--------+    |     | (which note and |                     | send audio/time data to|   |                  |                  *
+*  |                | |              |    |     | time data)      |                     | ESP32                  |   |                  |                  *
+*  |   Choose From  | |  Record      |    |     +-------+---------+                     +------+-----------------+   |                  |                  *
+*  |   Server       | |  New Sound   |    |             |                                      |                     |                  |                  *
+*  |                | |              |    |     +-------+----------+                           v                     |                  |                  *
+*  +--------------+-+ +-+------------+    |     |  Send to Server  |                    +------+----------+          |                  |                  *
+*                 |     |                 |     |  and store in    |                    | Play song       +----------+                  |                  *
+*                 |     |                 |     |  database        |                    +------+----------+                             |                  *
+*                 v     v                 |     +-------+----------+                           |                                        |                  *
+*           +-----+-----+------+          |             |                                      |                                        |                  *
+*           | Send to Server/  |          |             |                                      |                                        |                  *
+*     +-----+ Create Scale     |          |             v                                      |                                        |                  *
+*     |     +-------+----------+          |     +-------+----------+                           |                                        |                  *
+*     |             |                     |     | Synthesize wav   |                           |                                        |                  *
+*     |             v                     |     | file of song     |                           |                                        |                  *
+*     |     +-------+----------+          |     | for server       |                           |                                        |                  *
+*     |     | Send raw audio   |          |     |                  |                           |                                        |                  *
+*     |     | back to ESP32    +----------+     +-------+----------+                           |                                        |                  *
+*     |     +------------------+                        |                                      |                                        |                  *
+*     |                                                 |                                      |                                        |                  *
+*     |     +---------------------+                     |                                      |                                        |                  *
+*     +---> | Create wav files    |              +------+--------+                             |                                        |                  *
+*           | and database entries|              |  Choose Mode  +<----------------------------+<---------------------------------------+                  *
+*           | on server           |              +---------------+                                                                                         *
+*           |                     |                                                                                                                        *
+*           +---------------------+                                                                                                                        *
+************************************************************************************************************************************************************
+
+
+# Details
+
+## Recording Audio
+
+We record sound in a similar way to how it was done in lab 06A: we read
+12-bit data at 8 kHz from the microphone, and compress it into 8 bits.
+However, instead of converting it into `base64`
+as we did when sending it to the Google server, we send the raw binary
+data to our server — this allows us to record sound clips that are $4/3$
+times longer than they otherwise could have been, had we used `base64` encoding.
+
+Initially, we were using mu-law encoding to compress the 12-bit input data into 8 bits.
+However, this made our sound quality subpar, which we talk more about in the section Audio Size and Encoding.
+
+## Pitch Shifting
+
+We pitch shifted each recorded sound to fit the 12 pitches of one octave of the chromatic scale. By nature, pitch shifting is simply downsampling the audio sample while playing at the same sample rate. For example, downshifting by a factor of 2 will make the period half as long, and thus the frequency twice as fast. Thus, when played the audio sounds shifted up the octave.
+
+However, downsampling also makes the audio file shorter. Thus, in order to maintain an even length for all pitches, we needed to first stretch the audio without changing the pitch, and then downsample the stretched audio. After repeating those two processes with a different shift, you are left with 12 audio clips of the same length, but each at a different pitch.
+
+In order to stretch the audio without changing the pitch, we used a python package called audiotsm. Audiotsm implements the phase vocoder algorithm to stretch the audio by some user defined factor. Then, we wrote a function to downsample the audio using linear interpolation to shift the pitch and get the audio back to the original length.
+
+## Audio Processing
+
+Due to big spikes in amplitude at the beginning of sound clips, we kept hearing a clicking noise in our sounds. Additionally, for shorter
+sounds, some dead noise would be left at the end, which we thought could lead to weird continuity issues in songs. So, we decided to do a
+little processing of our sounds before using them. To get rid of the click, we stretched and shifted a sigmoid function to apply to the first
+few samples in order to smooth out the amplitude. You can think of this as a sort of fade-in effect. This worked to get rid of the clicking
+noise. To detect silence, we wrote a function to average amplitude over 100-sample sections and find the maximum. Then, any 100-sample section
+that was less than 10% of that maximum got cut out of the recording. Since the clips are so short, this usually doesn't do much as most of the
+recordings tend to have amplitudes in the same range for the whole duration. However, for shorter clips where there was some dead noise at the
+end, this algorithm proved useful.
+
+## Writing Wave Files
+
+For debugging and demonstration purposes, we wanted a way to play sounds and songs on the server from a browser as well as hear them on the ESP. To accomplish this, when a sound or song is sent to the server
+we create a wav file of that sound and then store the path to that file in the database. Then, when someone accesses one of the display endpoints with a GET request, the browser accesses the database and displays
+the wav files for the user to listen to. To create a sound wav file, we create a new mono wav object (given by the builtin python module wave) with a sample rate of 8000Hz and a sample width of 8 bits. Then, we
+simply have to pack the 8 bit raw integer data (the pitch shifted microphone readings) into binary data using the builtin module struct and write them frame by frame to the object, as demonstrated in this code:
+
+```python
+for value in data:
+  D = struct.pack('&lth', value)
+  obj.writeframesraw(D)
+```
+
+## Hardware - Capacitive Touch Keyboard
+
+The capacitive touch keyboard selects the pitch level to play when creating a song. The touch pins in the ESP32 can sense when a user touches the foil on a key.
+
+The ESP32 has 10 touch pins that can sense capacitance. The copper foil acts as one "plate" of the capacitor, and the user's finger acts as the other. When the user touches the foil, capacitance increases dramatically. The ESP32 has a function touchRead(int pin) that reads the touch sensor associated with a given pin. When the user is not touching the pin, the value is between about 50 and 70. When the user is touching the pin, the value is typically less than 25. Thus, we can tell which pin has been selected by comparing the touchRead value with a threshold.
+
+We wrote <a href=https://docs.google.com/document/d/1EeleG4t7MR6rkeD9FIf18Dz_qqaxgCL4FEAQ31iyUiI/edit?usp=sharing>this document</a> with detailed instructions on how we build the keyboard.
+
+When we integrated the keyboard with the other components of our project, we found that other processes interfered with the capacitive touch readings, and we would often get short false positive readings.  This would cause a note to play when we had not selected one. To counteract this, we averaged over five readings and compared that value with the threshold instead of comparing single readings.
+
+This is the code for reading from the keyboard:
+```
+int Keys::get_pitch() {
+  for (int i=0; i&ltNUM_KEYS; i++) {
+    int avg = 0;
+
+    for(int k=0; k &lt 5; k++) {
+      avg += touchRead(PINS[i]);
+    }
+    avg /= 5;
+    Serial.println(i);
+    Serial.println(avg);
+    Serial.println();
+    if(avg&ltTHRESHOLD && avg&gt0) {
+      if (cur_pitches == 1) {
+        return PITCHES1[i];
+      } else {
+        return PITCHES2[i];
+      }
+    }
+  }
+  return -1;
+}
+```
+
+We used 8 of the 10 touchPins for our project. This allows us to represent scale degrees 1-5 on the keyboard. In order to access the rest of the pitches, the user presses button 1 and the keyboard then represents scale degreens 5-2. The user can press button 1 repeatedly to toggle the keyboard back and forth.
+
+## Hardware - Speaker
+
+To play sounds from the speaker, we are not using any external libraries but just writing the raw audio data directly to the DAC on pin 25, which is in turn wired to the amplifier's voltage in pin (A+).
+To get the sounds to sound correct, we have to play them at 8000Hz by using the delayMicroseconds function to slow down the clock cycle to 8000Hz. It is ok for this to be blocking because when the audio is actually playing, the ESP is not doing anything else.
+While initially we were going to use an sd card to store and play wav files, we now store the raw audio data in flash memory on the ESP and simply loop through those arrays and write the raw data to the DAC.
+
+## Recording Songs
+
+*************************************************************************************
+*                                                                                   *
+*  +----+--+ button  +--------+ button  +-------------+      +----------------+     *
+*  | Start +-------->+ Record +-------->+ Decide name +----->+ Send to server +     *
+*  +----+--+         +---+--+-+         +-------------+      +----------------+     *
+*                        |  ^                                                       *
+*               keyboard |  +------------------+                                    *
+*                        v                     |                                    *
+*                 +------+-----+    +----------+-------------+                      *
+*                 | Play sound |--->| Add note to song array |                      *
+*                 +------------+    +------------------------+                      *
+*************************************************************************************
+
+When recording songs, we don't store the actual sound file, as that would make us run out
+of memory very quickly. Rather, we conceptually store the song as a JSON file on the format:
+
+```JavaScript
+{
+  "sound_name" : "",
+  "notes" : [
+      {
+        "pitch" : integer 0-11 specifying pitch level
+        "start" : time (milliseconds)
+      }
+  ]
+}
+```
+
+On the ESP, we don't actually store the JSON, but rather just two arrays, one for timestamps
+and one for the associated pitch level, along with the sound name in a different variable.
+
+We send the song data from the ESP to the server using a string that follows the wire protocol
+defined below.
+
+```
+REQUEST := USERNAME "\n" SOUNDNAME "\n" SONGNAME "\n" DATA
+DATA := ANOTE (ANOTE "\n")*
+ANOTE := START " " PITCH
+
+USERNAME := \w+
+SOUNDNAME := \w+
+SONGNAME := \w+
+START := [0-9]+
+PITCH := 1?[0-9]
+```
+Here, `START` is the number of milliseconds since the start of the song, and `PITCH` is a number from 0 to 11 identifying the pitch. This format is simple and relatively memory efficient (compared with e.g. JSON).
+On the server, upon receiving this, we convert it into a JSON on a format similar to the one above,
+and store it in the database.
+
+## Playing Songs
+
+We support playing songs both on the server and on the ESP32.
+
+In order to play a song on the server, the song must be synthesized from the json format into a wave file. This involves iterating through the notes in the song json, pulling the raw audio data for that note, and appending that data onto the song array. That song array can then be made into a wave file.
+
+The ESP32 function that plays sounds is blocking, so we do not need to worry about duration data for cutting in the middle of a sound. The only time information that matters is the difference in sound start times. The difference in the end of one sound and the beginning of the next should be filled with silence. On the server, we were able to add silence by adding zeros to the song array during these gaps. However, going all the way down to zero and back up quickly leaves clicking artifacts. Thus the same sigmoid fade in and fade out that was applied to the sounds is applied to the ends of the gap in the songs.
+
+To play songs on the ESP32, the audio json is parsed into a string that is easier to parse on the ESP32. Again, since the function that plays sounds on the ESP32 is blocking, we did not need the stored duration data. We did not send any time data at all to the ESP32, and thus we did not support silence in songs when playing through the ESP32. We were already having problems with memory constraints, and we found time data difficult to parse from the string on the ESP32 side, so we decided it was best to just play the pitches one after the other.
+
+To play a song on the ESP32, first a request is made to the server with the name of the song. Then, the server sends back the number connected to the sound needed, and then the pitch levels of the notes in order separated by commas. The ESP32 then parses that string and stores the pitch levels in an array. Then, the song is played by iterating through that pitch level array and playing sound given the pitch level the same way sounds are played when recording a song.
+
+We found that songs that were too long crashed the ESP32 due to memory constraints. Thus, the songs that are returned from the server for the user to select to play on the ESP32 are limited ot 30 notes or less.
+
+## ESP32 UI
+
+Most of the ESP UI is implemented in Menu and its subclasses, which are shown in the <a href="#documentation/esp32code">class diagram in our documentation</a>. Menu is the class that all of the menu screens inherit from. It has an update function which implements the behavior of scrolling through options when button 1 is pressed, and selecting an option with button 2. The menu has internally an array of menu options, which are the strings that are written to the screen, and a state map which tells what type of screen each option should segue to. It also has a draw function which draws the contents of it's menu options array, and a next menu function that looks at the state map and transitions to that type of Screen. Menu defines a function `create_menu`, which takes an argument of type `Screen_Type`, which is an enum of all possible screens. Menu also has a constructor which fills in the menu options and state map array based on the screen type.
+
+There are a few subclasses of Menu with special functionalities:
+* `SoundMenu` is the menu for the record screen, and loads a sound when it's clicked on. It also loads its menu options initially by making an http request.
+* `SongMenu` loads its options from an http request.
+* `HomeMenu` is a normal menu that's drawn with a picture of the keyboard at the top and a different colored background.
+* `CreateMenu` displays the song id in the heading
+* `LoadingMenu` parses the current http response and then transitions to the home screen
+* `SongLoadingMenu` parses the current http response and then transitions to the play screen
+
+All other screen types handle drawing in a different way, drawing different text based on their internal state. Special UI features include the keyboard in the song screen, which is implemented in its own class, and the play screen, which colors a percentage of the screen in based on the progress of the song.
+
+## Party Mode
+
+*****************************************************************************************************************************************
+*       +---------------------------------------------------------------------------------------------+----------+                      *
+*       v                                                                                             |          |                      *
+*  +----+-----+       +-----------+       +-----------------------+      +------------------------+   |    +-----+------+               *
+*  |   Idle   +------>+ Play note +------>+ Submit note to server +----->+Get other people's notes+---+--->+ Play notes |               *
+*  +----+-----+       +-----------+       +-----------------------+      +--------+---------------+        +------------+               *
+*       |                                                                         ^                                                     *
+*       +-------------------------------------------------------------------------+                                                     *
+*           if > 2 seconds have passed since last getting other people's notes                                                          *
+*****************************************************************************************************************************************
+
+
+Party mode is a mode to play without recording a song. If multiple users are in party mode at the same
+time, they will hear each other's sounds (with a small delay).
+
+<a href="#partymodevideo">See a video of the party mode in action here.</a>
+
+Whenever a user plays a note, it is sent to the server, which stores all notes in a database. The
+server responds with all new notes from other users since this user's last request, which the ESP
+then plays back when it receives them. Also, the ESP will periodically (once every 2 seconds)
+make requests to the server for any new sounds, even if the user has not tapped any keys.
+
+
+To make sure that the client only gets new notes, the ESP keeps track of a `page` number: whenever it submits
+a request, it includes the `page` parameter — the server then responds only with
+notes that have arrived after that page. The server also always includes in its response the new total page count,
+so that the client can keep track of its current page.
+
+
+## Server Display - sounds
+
+To provide a nicer UI and access to data without the ESP32, we made a few endpoints to play audio data. The main page for playing sounds
+can be found at http://608dev-2.net/sandbox/sc/team082/sampler/server/sounds. Here, all original recorded sounds are on display in order
+from newest to oldest. By clicking on the name of the sound, you are brought to a page where you can see and hear all the shifted versions
+of the original. There is another endpoint for displaying the page for the most recently recorded sound, made for an earlier milestone, but
+with the more general endpoint now working, the old endpoint doesn't have much use.
+
+## Server Display - songs
+
+We also have comparable pages for playing songs. The main page is at http://608dev-2.net/sandbox/sc/team082/sampler/server/allsongs. Due to
+timeout issues, we are unable to display all songs, but this endpoint shows the most recent twenty or so, excluding any that are too long to
+render. A different endpoint, http://608dev-2.net/sandbox/sc/team082/sampler/server/playSong.py allows you to play the most recently recorded
+song, regardless of length, so this is the endpoint to use to play lengthy songs.
+
+# Discussion / Challenges
+
+## Memory Constraints
+
+Since we were dealing with audio data, which takes up a lot of memory, we
+consistently had to think about keeping our memory usage as efficient as
+possible. For example, in the section Recording Audio we describe how we
+decided to store the sound data in binary instead of `base64` to decrease
+our memory usage by a factor of $4/3.$
+
+When downloading the modified sounds, we wanted to do the same thing. However, it turned out
+that the server did not support sending down binary data, and we were forced
+to `base64` encode it. This required us to be even more careful with how we
+dealt with the downloaded sounds. For example, when decoding
+the `base64` response, we can't afford to create a new buffer to store the result — rather, we need to decode it in-place.
+The following code deals with that, also extracting the username and the soundlength of the sounds:
+
+```cpp
+void State::parse_sound_from_response() {
+  // now we have base64 data, and we want to un-base64 it in place
+  // SOUNDNAME '\n' SOUNDLENGTH '\n' RAWAUDIO
+  // SOUNDNAME := ascii string
+  // SOUNDLENGTH := base-10 length of a single of the 12 sounds, in bytes
+  // RAWAUDIO := binary raw audio of all audio files, of SOUNDLENGTH * 12 total bytes
+  int i = 0;
+  char delimiters[1];
+  delimiters[0] = '\n';
+  char* p = strtok(selected_sound_data,delimiters);
+  char temp[5];
+  while (p != NULL) {
+    if (i == 0) {
+      sprintf(selected_sound, p);
+    } else if (i == 1) {
+      selected_sound_length = atoi(p);
+    } else if (i == 2) {
+      // decode base 64 in place yay
+      int subs = 0;
+      for (int j = 0; j < selected_sound_length * NUM_PITCHES * 4 / 3; j += 4) {
+        base64_decode(temp, &p[j], 4);
+        p[j-subs] = temp[0];
+        p[j+1-subs] = temp[1];
+        p[j+2-subs] = temp[2];
+        subs++;
+      }
+      selected_sound_data = p;
+      p[selected_sound_length * NUM_PITCHES] = '\0';
+      i++;
+      p = strtok(&p[selected_sound_length * NUM_PITCHES + 1], delimiters);
+      continue;
+    }
+    i++;
+    p = strtok(NULL, delimiters);
+  }
+}
+```
+
+We also had a problem where we would sometimes just crash after
+spending enough time with the system.
+It turned out that this
+was a memory problem where old UI screens were never destroyed when we created new screens. This was solved by adding
+the following `switch_to_screen` method:
+
+```cpp
+void State::switch_to_screen(Screen* new_screen) {
+  // delete the old screen to free memory!!
+  delete cur_screen;
+  cur_screen = new_screen;
+}
+```
+Since this method is often called by `new_screen` itself, we needed to make some changes to make sure that we always return
+immediately after calling this, so that we are not modifying the state of a deleted object. We also added destructors
+to all screens.
+
+## Audio Size and Encoding
+
+In addition to thinking about the total size of the audio, we have to think about the size of the individual bytes as well as the format of those bytes. We recorded the sounds from the microphone as 12 bit numbers, as the ESP has a 12 bit ADC.
+However, the amplifier we were using, as well as the DAC on the ESP, is 8 bit, so it requires 8 bit numbers as input. At first, we thought the best strategy would be to mulaw encode the 12 bit numbers down to 8 bits, as that was what we had done in Lab 6.
+However, this meant that when the audio was played out of the ESP, it was still encoded as we needed it to be 8 bit and all decoding algorithms we found gave 16 bit numbers. This made the audio extrememly distorted, almost to the point of being unrecognizable.
+To solve this problem, we instituted a linear encoding to change the values from 12 bit numbers to 8 bit numbers. Simply dividing by 16 linearly changes the range of the values from 0 - 4096 to 0 - 256.
+
+However, this caused a new problem. The mulaw encoding output numbers in a range that never got near 0 (coincedentally), but the new range hit 0 very often (again, coincedentally). Since we were storing the data as binary data in a char array, storing a 0 was interpreted as a null character,
+effectively ending that char array earlier and breaking the request string. To fix this problem, we shifted the range to be farther from 0 as well as institute a check to catch any values equal to 0 or out of range at all. This is the math:
+
+```
+value = ((analogRead(AUDIO_IN)-1541)/16)+108;
+if (value > 255) value = 255;
+if (value < 1) value = 1;
+```
+
+## Pitch Shifting
+
+Pitch shifting was one of the first big challenges we had to solve in our project, and it was very integral to the device as a whole. We tried a variety of strategies to accomplish pitch shifting. The first strategy involved using numpy to fourier transform the data, and then shift all frequencies found in the fourier transform
+up a certain number of Hz. However, because of the nonlinear behavior of frequencies (i.e., one octave increase is double the frequency, not +100 Hz for example), it is hard to create 12 notes using a linear shift unless you know the root frequency and can calculate the shift from each note. However, this then presents the issue
+of detecting the pitch/frequency of the sound played. This is a fairly complex DSP problem that we would need to solve and implement in addition to the pitch shifting itself, so we opted for a strategy. Interestingly, the strategy we then implemented, stretching the audio and then downsampling by a certain amount (described in greater detail in the "Details" section),
+is an extremely different approach than the fourier transform strategy.
+
+# Documentation
+
+## ESP32 Code
+The ESP side of the code is primarily structured around a single instance of the State class, which is stored within the `cur_state` variable of the main file. State is basically acting like a singleton class (since we are guaranteeing that it's only instantiated once), and is the object that holds all the data we need to store as our program flows between screens. State holds the the current sound data, as well as request and response buffers that are reused to save memory. It also takes care of making HTTP requests—if `do_http_request` within state is set to true, on the next iteration of the main loop a http request will be performed using the request and response buffers set in `cur_state`. State also has a variable `cur_screen` of type Screen, which holds the Screen currently being displayed. A Screen in our code is represents a specific functionality of our code, which allows us to obfuscate each functionality's individual state machine from the larger state machine of the system as a whole. The important methods of Screen can be seen in this stub:
+```
+class Screen {
+  ....
+  virtual void update(int button1, int button2, float angle, State&);
+  virtual void draw(TFT_eSPI&, State& state);
+  bool screen_changed = true;
+};
+```
+When the `update` method is called, the Screen updates itself based on the arguments passed into `update`—the two button values, the angle from the IMU, and the current state—as well as its own internal State. When the `draw` method is called, the Screen draws the correct UI onto the tft object it is passed based on its internal state and the global state also passed to it. Additionally, a Screen has a `screen_changed` boolean, which is set in update whenever the screen needs to be redrawn. This ensures that the display is only updated when necessary. The update and draw methods of `cur_state`'s `cur_screen` are called on every execution of the main loop:
+```
+void loop() {
+  int button_value_1 = button1->update();
+  int button_value_2 = button2->update();
+  float x, y;
+  get_angle(&x, &y); //get angle values
+
+  main_state->cur_screen->update(button_value_1, button_value_2, -y, *main_state);
+  main_state->cur_screen->draw(tft, *main_state);
+  if (main_state->perform_http_request) {
+    do_http_request("608dev-2.net", main_state->request_buffer, main_state->response_buffer, main_state->response_buffer_size, main_state->RESPONSE_TIMEOUT, true);
+    main_state->perform_http_request = false;
+  }
+}
+```
+Since Screen contains virtual methods, its an abstract class (so we never actually instantiate Screen objects). Instead, every functionality of our system is implemented as a subclass of Screen, shown in the following class hierarchy:
+***************************************************************
+*                      +----------+
+*                      |CreateMenu|         +--------+
+*                      +--+-------+      +->+PlaySong|
+*      +-----------+      ^              |  +--------+
+*      v           |      |              |
+* +----+----+    +-+------+-+         +--+---+      +--------+
+* |SoundMenu|  +-+   Menu   +<--------+Screen+----->+NewSound|
+* +---------+  | +-+------+-+         +--+-+-+      +--------+
+*              |   |      |              | |
+*              |   |      |              | |     +-------+
+*  +--------+  |   |      v              | +---->+NewSong|
+*  |HomeMenu+<-+   |  +---+-------+      |       +-------+
+*  +--------+      |  |LoadingMenu|      v
+*                  |  +------+----+   +--+--+
+*                  |         |        |Party|
+*      +--------+  |         |        +-----+
+*      |SongMenu+<-+       +-+
+*      +--------+          |
+*                          v
+*                  +-------+-------+
+*                  |SongLoadingMenu|
+*                  +---------------+
+*
+***************************************************************
+
+We talk about each of these subclasses in detail on their respective sections:
+
+* `Menu` and its subclasses <a href="#details/esp32ui">implement the UI for the ESP</a>
+* `Party` implements <a href="#details/partymode">party mode</a>
+* `NewSong` implements <a href="#details/recordingsongs">creating a song</a>
+* `PlaySong` implements <a href="#details/playingsongs">playing back song</a>
+* `NewSound` implements <a href="#details/recordingaudio">recording sound</a>
+
+## Server code
+
+The following is a list of all the files on the server and their purpose.
+
+* allsongs - an endpoint for displaying songs that have been recorded on the ESP32 and submitted to the server.
+
+* displayAudio.py - an endpoint for displaying the most recent sound that has been submitted to the server in all 12 pitches. It is now obsolete in the current pipeline, but it was a week 1 deliverable and an important debugging tool.
+
+* list_songs.py - this file is misleadingly named. This file returns a list of the 18 most recently recorded sounds to the ESP32 to make the select sound menu.
+
+* party.py - request handler for party mode. Records pitches played locally and sends pitches played by other people.
+
+* pitch_shifter.py - includes functions for processing sound audio received from the ESP32. Stretches the audio with audiotsm, takes out dead noise in sounds, smooths out clicking artifacts, and downsamples to the appropriate pitch and length. It also includes functions for turning arrays of audio data into wave files and helper functions for making and processing the whole scale with one call.
+
+* play_list.py - returns a list of the 18 most recently recorded songs that are 30 notes or less for the ESP32 play song menu.
+
+* playSong.py - an endpoint for displaying the most recently recorded song. Since only one song is loaded, this can be of arbitrary length. This was a week 2 deliverable.
+
+* send_song.py - request handler to respond to the ESP32 requesting a certain song to play. The handler gets the requested song from the database and parses the json into an easy-to-parse string for the ESP32 with only relevant information.
+
+* sound.py - handles sound requests. Adds newly recorded sounds to the database.
+
+* sounds - an endpoint for displaying all the sounds that we have in the database. The endpoint first displays all of the original sounds, but clicking on the sound allows the user to see the sound shifted to all 12 pitches.
+
+* styles.css - css styling information for all of our frontend sound and song displays.
+
+* submit_song.py - puts a newly recorded song by the ESP32 into the song database.
+
+## Database Structure
+
+We have three databases for our project living on the server, for storing sounds, songs, and party data.
+
+1. The sounds database is  found at `__HOME__/sampler/sounds.db`. It has one column for the username of the person who submitted the sound, twelve columns containing pathnames
+  to the files containing the twelve versions of each sound (one original, eleven shifted), one column containing the pathname to the file with all
+  the raw audio data for all twelve sounds, and a timestamp for when the sound was submitted.
+2. The songs database, found at `__HOME__/sampler/songs.db`,
+  is less gargantuan: it has one column for the username of the person who submitted the song, one column for the name of the song, one column for the
+  song data (stored as a JSON including data about which sound to use and what pitches to play when), and a timestamp for when the song was submitted.
+3. The party database, found at `__HOME__/sampler/party.db`, has an autoincrementing ID for syncing
+  between users, and columns for username, sound name and pitch number. It is used for communicating
+  between users that are both in party mode.
+
+# Weekly Milestones and Demos
+
+## Week 1
+
+| Milestone | Demo |
+|---|---|
+| Write ESP32-side code to record audio clip (basis of chromatic scale) and send to Serial port. | Show audio clip information on Serial monitor as we play sounds. |
+| Write ESP32-side code to take audio recording and send to server. | Show a POST request body on Serial monitor. |
+| Write Python script to turn the single sound into 12 notes and return them in the response body. | Show a POST request response body where it takes in ESP32 recorded audio and returns 12 new audio clips. |
+| Write Python script to store the single sound in a database. (part of POST request) | Show what the database looks like before and after storing a new sound. |
+
+![Sending sound from ESP to server]("https://www.youtube.com/watch?v=wDLK6RCakKY")
+
+## Week 2
+
+| Milestone | Demo |
+|---|---|
+|ESP32 UI (directions, scrolling through sounds, selecting different modes) | demonstrate UI |
+| Store 8-bit raw audio in the database | show array on serial monitor |
+| Transfer audio to ESP32 (server & esp) | show array on serial monitor |
+| Send song to server| show request printout on serial monitor|
+| Store song on server in database and write endpoints for that| play at endpoint|
+| Synthesize .wav file from song|play at endpoint|
+
+![Synthesizing a wave file for a song]("https://youtu.be/Kx0Jdcvmi2o")
+
+![Storing 8-bit audio in database and sending to ESP32]("https://youtu.be/OOLRTqdoWIY")
+
+![ESP32 UI](https://youtu.be/axEfZnTfP5o)
+
+## Week 3
+
+| Milestone | Deliverable |
+| --- | --- |
+| Build the keyboard and remaining hardware | demonstrate video of keyboard/speaker working |
+| Find the source of the mysterious clicking noise | demonstrate new and improved sound on displayAudio.py |
+| Get rid of the dead space in a sound clip | demonstrate new and improved sound on displayAudio.py |
+| Figure out memory constraints on the ESP32 | it should work |
+| Code side of the keyboard (play sound) | demonstrate sound playing out of the speaker |
+| UI updates (naming, list actual sounds) | demonstrate UI |
+
+![Capacitive Touch Keyboard](https://youtu.be/hKZ9S_5LHaQ)
+
+![Keyboard and Speaker working together](https://youtu.be/tKbIGMuUnys)
+
+![UI updates](https://youtu.be/V83goeLTKYY)
+
+![Clicking Sound and Dead Noise](https://youtu.be/47SQwdt85Io)
+
+## Week 4
+
+| Milestone | Deliverable |
+| --- | --- |
+| Fix mu-law encoding so the audio stops sounding bad	| good sounding audio |
+| party mode (include play without recording)	| two people playing at the same time |
+| endpoint for displaying sounds/songs in browser	| show endpoint |
+| Play songs on ESP32	| demonstrate a song being played |
+| Fix recording bugs	| show in video that they are gone |
+| Update UI for party mode + playing songs	| show in video |
+| Rotate keyboard to use all 11 pitches	| show in video |
+
+
+![Fixed mu-law](https://www.youtube.com/watch?v=J6j5QV819ds)
+
+<div id="partymodevideo">
+</div>
+
+![Party Mode](https://www.youtube.com/watch?v=p7-mSBmpy8Q)
+
+![Sound/Songs Endpoint](https://youtu.be/V8b5GbZ8TIE)
+
+![ESP32 Playing a Song](https://youtu.be/de26ldfkfnQ)
+
+![UI for playing songs](https://youtu.be/lF5QfyKm0cM)
+
+![Keyboard Rotate](https://youtu.be/5-BdG05_uWg)
+
+<style class="fallback">body{visibility:hidden}</style><script>markdeepOptions={tocStyle:'auto'};</script>
+<!-- Markdeep: --><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?" charset="utf-8"></script>

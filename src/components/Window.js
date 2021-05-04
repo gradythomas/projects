@@ -15,13 +15,19 @@ import Motor from './MotorPage'
 import Music from './MusicPage'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
   title: {
     flexGrow: 1
   },
   container: {
     padding: 40,
-    backgroundColor:'#8AC6D0',
-    height: '120vh' 
+    backgroundColor: '#FFFFFF',//'#8AC6D0',
+    height: '100%',
+    flexGrow: 1
   }
 }));
 
@@ -67,8 +73,8 @@ export default function WindowFrame() {
     }
 
     return (
-      <>
-        <AppBar position="static">
+      <div className={styles.root}>
+        <AppBar position="sticky">
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleMenuClick}>
               <MenuIcon />
@@ -114,6 +120,6 @@ export default function WindowFrame() {
           {currPage == 3 && <Motor />}
           {currPage == 4 && <Music />}
         </Container>
-      </>
+      </div>
     )
 }

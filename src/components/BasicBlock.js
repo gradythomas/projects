@@ -14,9 +14,9 @@ export default function BasicBlock(props) {
     const styles = useStyles()
 
     return (
-        <>
+        <div style={{ flexDirection: 'column' }}>
             <BasicHeader text={props.header} />
             <BasicParagraph text={props.paragraph} />
-        </>
+        </div>
     )
 }
