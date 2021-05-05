@@ -1,5 +1,6 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
+import { Divider } from '@material-ui/core'
 import BasicHeader from './BasicHeader'
 import BasicParagraph from './BasicParagraph'
 

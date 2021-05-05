@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container
+  Typography, Divider
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles } from '@material-ui/core/styles'
 import BasicBlock from './BasicBlock'
 import BasicImage from './BasicImage'
-import { NearMeRounded, TapAndPlayRounded } from '@material-ui/icons'
+import BasicHeader from './BasicHeader'
+import BasicParagraph from './BasicParagraph'
 
 const useStyles = makeStyles((theme) => ({
     imgBox: {
@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20,
+        marginBottom: 10
     }
 }))
 
@@ -45,12 +47,59 @@ export default function Sampler() {
         server in a SQL database. Users could use their browser to click through and listen to various songs and sounds recorded by other users.'
     ]
 
+    const challengesText = [
+        'Personal Challenges',
+
+        'Since this was a team project, I focused on some parts more than others. Specifically, I worked a lot on the hardware part of sound: recording through the mic \
+        and playing it back through the speaker. Recording was not very difficult, as all you have to do is directly read the voltages off the correct analog IO pin. \
+        The ESP32 has a 12 bit ADC, so we got 12 bit numbers from reading this input. However, the amplifier/speaker breakout board we used needed 8 bit input, and to write \
+        to a WAV file (for the browser interface and testing) we needed either 8 bit or 16 bit input. Our initial approach was to use a mu-law encoding algorithm we had \
+        used in a previous lab; however this created quite a bit of distortion. We then tried linearly shifting the numbers (i.e. divide everything by 16) which initially \
+        led to a strange bug of seemingly playing no sound. However, we discovered that dividing by 16 led to getting quite a few 0\'s in our data, which when sending to the \
+        server as binary data was interpreted as a null character and ended the string prematurely. Shifting all 0\'s to 1 fixed the issue and gave us clean, 8 bit audio. \
+        Once the data was 8 bit, playing the audio was relatively straight forward and did not require any complex third party libraries. Initially, we had planned to write \
+        each note to a wav file on an SD card, and play those files when triggered. However, we had just enough flash memory to store the notes\' binary data in char arrays \
+        and therefore decided not to complicate it with external storage. Playing these notes was as straightforward as writing the data from each array to the DAC pin; \
+        the tricky part was getting the audio to play back at the right rate. Since it was recording at 8 kHz, it needed to be written to the DAC at the same rate, which was \
+        achieved by slowing down the internal clock with delay functions to 8000 kHz.',
+
+        'Another part of the project I worked on a fair amount was figuring out how to write raw audio data (essentially just a list of voltages) to a wav file. This proved \
+        more difficult than we initially thought, as most libraries expected some sort of encoded data or data that had been recorded in Python into some sort of object. \
+        However, we just had an array of numbers. As I read more into the documentation for the Python standard library wave, I found functions for writing binary data \
+        to a wav file. However, this was my first time every interacting with binary data, especially in the realm of sound, and it took quite a bit of trial and error \
+        to get the framerate, data size, and date rate to match properly between the ESP32 and Python script. However, once everything was matched up properly, the data \
+        was packed up into structs and written to a wav file as 8 bit audio that could be played for testing and in the browser. Getting this working quickly was very \
+        important as it was very difficult to test our recording and pitch shifting without any playback capabilities.',
+
+        'I intentionally worked primarily on parts of the project dealing with binary data and low level hardware, as those were areas I felt least comfortable and wanted \
+        to learn about the most. I think this project prepared me very well for the work I did at GTRI dealing with reading, writing, and encoding raw binary data. I also \
+        found it very satisfying to see how computers dealt with (and implement myself) recorded sound and sound files at the lowest level.'
+    ]
+
     return (
         <>
             <BasicBlock header={introText[0]} paragraph={introText[1]} />
             <BasicImage src="/projects/sampler_pic.jpg" width="504" height="378" caption="The final product"/>
             <BasicBlock header={functionsText[0]} paragraph={functionsText[1]} />
             <BasicImage src="/projects/song_ui.png" width="60%" height="60%" caption="Browser UI"/>
+            <BasicBlock header={challengesText[0]} paragraph={challengesText[1]} />
+            <br />
+            <BasicParagraph text={challengesText[2]} />
+            <br />
+            <BasicParagraph text={challengesText[3]} />
+            <BasicHeader text="Demonstration" />
+            <div className={styles.imgContainer}>
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/D0RY7BqFPo0" 
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div className={styles.imgContainer}>
+                <Typography variant='body2'><i>Recorded by teammate for final report</i></Typography>
+            </div>
         </>
     )
 }
