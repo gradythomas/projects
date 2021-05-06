@@ -29,13 +29,16 @@ export default function Nugs() {
             'nugs.net is a streaming service for primarily live music and \
              seems to be built on the AngularJS framework. I felt that nugs was a little unpolished compared to some other streaming services, \
              specifically with things like authentication and streaming optimization, and wanted to poke around the code to see what was going \
-             on under the hood.'
+             on under the hood. I had messed around with the chrome dev tools before, and decided to try and see if I could find out how the music was streamed. \
+             From my initial looking, the web app used AngularJS for its UI.'
         ],
         [
             'Vulnerability Description',
             'Using the chrome dev tools, I discovered that when a song is played, the angular callback is added in a new file \
-             that includes a URL stored in the key streamLink. Following this URL leads to a blank page where the mp3 file is embedded in a basic \
-             html video player with the audio/mp3 file type. Right clicking on this file allows you to save the audio as a file.'
+             that includes a URL stored in the key streamLink. This file is a few levels down in the sources section; \
+             it seems to be related to something called BigRiver, which could be an internal or external JS library. \
+             Following the URL from the file leads to a blank page where the mp3 file is embedded in a basic \
+             html video player with the audio/mp3 file type. Right clicking on this file allows you to save the audio as a file to your computer.'
         ],
         [
             'Analysis',

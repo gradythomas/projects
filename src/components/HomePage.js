@@ -28,9 +28,9 @@ export default function Home() {
 
     return (
         <>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>
             <BasicBlock header={introText[0]} paragraph={introText[1]} />
-            <img style={{ marginLeft: 50 }} src="/projects/self_pic.jpeg" height="321" width="271"/>
+            <img style={{ marginLeft: 50, marginTop: 10 }} src="/projects/self_pic.jpeg" height="321" width="271"/>
         </div>
         <BasicBlock header={designText[0]} paragraph={designText[1]} />
         <Typography component="div" style={{ height: '50vh' }} />
