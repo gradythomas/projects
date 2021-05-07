@@ -3,7 +3,7 @@ import {
   Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import BasicBlock from './BasicBlock'
+import BasicBlock from '../elements/BasicBlock'
 
 export default function Home() {
 

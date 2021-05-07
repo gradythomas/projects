@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {
   Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles } from '@material-ui/core/styles';
-import BasicBlock from './BasicBlock'
-import BasicHeader from './BasicHeader'
+import BasicBlock from '../elements/BasicBlock'
+import BasicHeader from '../elements/BasicHeader'
 
 const useStyles = makeStyles((theme) => ({
     videoBox: {
@@ -26,7 +25,7 @@ export default function Nugs() {
     const blogText = [
         [
             'Background',
-            'nugs.net is a streaming service for primarily live music and \
+            '<b>nugs.net</b> is a streaming service for primarily live music and \
              seems to be built on the AngularJS framework. I felt that nugs was a little unpolished compared to some other streaming services, \
              specifically with things like authentication and streaming optimization, and wanted to poke around the code to see what was going \
              on under the hood. I had messed around with the chrome dev tools before, and decided to try and see if I could find out how the music was streamed. \

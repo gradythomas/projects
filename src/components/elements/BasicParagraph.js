@@ -16,7 +16,7 @@ export default function BasicParagraph(props) {
 
     return (
         <Typography variant='body1'>
-            {props.text}
+            <span dangerouslySetInnerHTML={{'__html': props.text}} />
         </Typography>
     )
 }

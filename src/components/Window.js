@@ -8,11 +8,11 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import MusicNoteIcon from '@material-ui/icons/MusicNote'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import { makeStyles } from '@material-ui/core/styles'
-import Home from './HomePage'
-import Sampler from './SamplerPage'
-import Nugs from './NugsPage'
-import Motor from './MotorPage'
-import Music from './MusicPage'
+import Home from './pages/HomePage'
+import Sampler from './pages/SamplerPage'
+import Nugs from './pages/NugsPage'
+import Motor from './pages/MotorPage'
+import Music from './pages/MusicPage'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,9 +67,10 @@ export default function WindowFrame() {
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
-      2: 'nugs.net Web App Exploit',
+      2: 'nugs.net Exploit',
       3: '6.A01 Brushless Motor',
-      4: 'Recorded Music'
+      4: 'Recorded Music',
+      5: 'API Reverse Engineering'
     }
 
     return (
