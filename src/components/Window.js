@@ -7,6 +7,7 @@ import DescriptionIcon from '@material-ui/icons/Description'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import MusicNoteIcon from '@material-ui/icons/MusicNote'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
+import EmailIcon from '@material-ui/icons/Email'
 import { makeStyles } from '@material-ui/core/styles'
 import Home from './pages/HomePage'
 import Sampler from './pages/SamplerPage'
@@ -64,6 +65,10 @@ export default function WindowFrame() {
       window.open("https://open.spotify.com/artist/6TkfOksTZM6tfOU8knP0gd?si=caVUG_9wR0utpYd2MEan6A", "_blank")
     }
 
+    const openMail = (event) => {
+        window.open("mailto:gradyt@mit.edu")
+    }
+
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
@@ -111,6 +116,12 @@ export default function WindowFrame() {
               <IconButton onClick={openSpotify}>
                 <MusicNoteIcon />
               </IconButton>
+            </Tooltip>
+            {/*Mail Button, opens up a new email draft to me*/}
+            <Tooltip title={'Email'} color="inherit">
+                <IconButton onClick={openMail}>
+                    <EmailIcon />
+                </IconButton>
             </Tooltip>
           </Toolbar>
         </AppBar>
