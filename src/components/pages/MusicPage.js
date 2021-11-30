@@ -25,15 +25,16 @@ export default function Music() {
     const introText = [
         'Background',
         'Guitar playing and music have been one of my biggest hobbies for about 6 years now. While I also love listening to music, \
-        a few years ago I been recording my own music. That has since snowballed into a big interest in music production and \
+        a few years ago I began recording my own music. That has since snowballed into a big interest in music production and \
         technology. I have recorded a fair amount of songs, but at this point only released one, with my friend Lonnie Reid \
-        on vocals (as well as lyric songwriting).'
+        on vocals (as well as lyric songwriting). I also have a SoundCloud profile with more in progress work!'
     ]
 
 
     return (
         <>
         <BasicBlock header={introText[0]} paragraph={introText[1]} />
+        <br />
         <div className={styles.videoBox}>
             <iframe src="https://open.spotify.com/embed/track/32OTogCfNH5ZoaZsLlb5Vb"
                 width="300"
@@ -42,6 +43,18 @@ export default function Music() {
                 allowtransparency="true"
                 allow="encrypted-media">
             </iframe>
+        </div>
+        <br />
+        <div className={styles.videoBox}>
+        <iframe 
+            width="100%"
+            height="300"
+            scrolling="no"
+            frameborder="no"
+            allow="autoplay"
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1174613302&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+        </iframe>
+        
         </div>
         </>
     )

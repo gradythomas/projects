@@ -73,9 +73,7 @@ export default function WindowFrame() {
       0: 'Home',
       1: '6.08 Sampler Project',
       2: 'nugs.net Exploit',
-      3: '6.A01 Brushless Motor',
-      4: 'Recorded Music',
-      5: 'API Reverse Engineering'
+      4: 'Recorded Music'
     }
 
     return (
