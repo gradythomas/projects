@@ -14,6 +14,9 @@ import Sampler from './pages/SamplerPage'
 import Nugs from './pages/NugsPage'
 import Motor from './pages/MotorPage'
 import Music from './pages/MusicPage'
+import Outside from './pages/OutdoorPage'
+import FPGA from './pages/FPGAPage'
+import Circuits from './pages/CircuitsPage'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,8 +75,12 @@ export default function WindowFrame() {
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
-      2: 'nugs.net Exploit',
-      4: 'Recorded Music'
+      2: '6.111 Sound Isolator',
+      3: '6.002 Velocity Sensor',
+      4: '6.A01 Brushless Motor',
+      5: 'nugs.net Exploit',
+      6: 'Recorded Music',
+      7: 'Outdoor Leadership'
     }
 
     return (
@@ -126,9 +133,12 @@ export default function WindowFrame() {
         <Container className={styles.container} maxWidth='md'>
           {currPage == 0 && <Home /> }
           {currPage == 1 && <Sampler /> }
-          {currPage == 2 && <Nugs /> }
-          {currPage == 3 && <Motor />}
-          {currPage == 4 && <Music />}
+          {currPage == 2 && <FPGA />}
+          {currPage == 3 && <Circuits />}
+          {currPage == 4 && <Motor />}
+          {currPage == 5 && <Nugs /> }
+          {currPage == 6 && <Music />}
+          {currPage == 7 && <Outside />}
         </Container>
       </div>
     )
