@@ -10,12 +10,21 @@ import { NearMeRounded, TapAndPlayRounded } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
     imgBox: {
         margin: 30
+        
     },
     imgContainer: {
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'center'
+    },
+
+    textContainer: {
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 45
     }
 }))
 
@@ -27,7 +36,7 @@ export default function BasicHeader(props) {
             <div className={styles.imgContainer}>
                 <img className={styles.imgBox} src={props.src} width={props.width} height={props.height}/>
             </div>
-            <div className={styles.imgContainer}>
+            <div className={styles.textContainer}>
                 <Typography variant='body2'><i>{props.caption}</i></Typography>
             </div>
         </>

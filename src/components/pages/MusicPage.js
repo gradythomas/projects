@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container
 } from '@material-ui/core'
@@ -18,21 +18,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Music() {
+export default function Music(props) {
 
     const styles = useStyles()
 
+    const aboutRef = useRef(null)
+    //const designRef = useRef(null)
+
+
+    useEffect(() => {
+        props.setScrollFunctions({
+            aboutScroll: (e) => window.scrollTo(0, aboutRef.current.offsetTop - 60) ,
+            //designScroll: (e) => window.scrollTo(0, designRef.current.offsetTop - 60), 
+
+        })
+        props.setScrollButtons([
+            'About',
+            //'Site Design'
+        ])
+    }, [])
+
     const introText = [
-        'Background',
-        'Guitar playing and music have been one of my biggest hobbies for about 6 years now. While I also love listening to music, \
+        'About',
+        'Guitar playing and music have been one of my biggest hobbies for about 8 years now. While I also love listening to music, \
         a few years ago I began recording my own music. That has since snowballed into a big interest in music production and \
         technology. I have recorded a fair amount of songs, but at this point only released one, with my friend Lonnie Reid \
-        on vocals (as well as lyric songwriting). I also have a SoundCloud profile with more in progress work!'
+        on vocals (as well as lyric songwriting). I also have a SoundCloud profile with more in progress work.'
     ]
 
 
     return (
         <>
+        <div ref={aboutRef} />
         <BasicBlock header={introText[0]} paragraph={introText[1]} />
         <br />
         <div className={styles.videoBox}>

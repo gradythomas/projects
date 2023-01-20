@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container, Divider
 } from '@material-ui/core'
@@ -18,8 +18,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Home() {
+export default function Home(props) {
     const styles = useStyles();
+
+    const aboutRef = useRef(null)
+    const designRef = useRef(null)
+
+
+    useEffect(() => {
+        props.setScrollFunctions({
+            aboutScroll: (e) => window.scrollTo(0, aboutRef.current.offsetTop - 60) ,
+            designScroll: (e) => window.scrollTo(0, designRef.current.offsetTop - 60), 
+
+        })
+        props.setScrollButtons([
+            'About Me',
+            'Site Design'
+        ])
+    }, [])
+
+
     const introText = [
         'About Me',
         'Hi, welcome to my portfolio. My name is Grady Thomas and I am a second-year student at MIT majoring in Electrical Engineering and Computer Science (6-2) \
@@ -41,10 +59,11 @@ export default function Home() {
 
     return (
         <>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>
+        <div ref={aboutRef} style={{ display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>
             <BasicBlock header={introText[0]} paragraph={introText[1]} />
             <img style={{ marginLeft: 50, marginTop: 10 }} src="/projects/self_pic.jpeg" height="321" width="271"/>
         </div>
+        <div ref={designRef} />
         <BasicBlock header={designText[0]} paragraph={designText[1]} />
         <Divider className={styles.divider} />
         <div style={{ marginTop: 40, justifyContent: 'space-around', display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>

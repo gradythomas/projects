@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container, Tooltip
+  Typography, Button, Paper, AppBar, Toolbar, IconButton, Menu, MenuItem, Container, Tooltip, Card, CardContent, CardHeader
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import DescriptionIcon from '@material-ui/icons/Description'
@@ -32,6 +32,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FFFFFF',//'#8AC6D0',
     height: '100%',
     flexGrow: 1
+  },
+  card: {
+    width: 400,
+    height: 'auto',
+    backgroundColor: theme.palette.primary.main,//'#a1abb5',
+    margin: 20,
+    marginLeft: 40,
+    marginRight: 0,
+    position: 'fixed',
+    padding: 10
+  },
+  scrollButtons: {
+    color: '#171727',
+    fontSize: 20,
+    cursor: 'pointer',
+    "&:hover": {
+      fontSize:24
+    }
   }
 }));
 
@@ -41,10 +59,13 @@ export default function WindowFrame() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [menuAnchor, setMenuAnchor] = useState(null)
     const [currPage, setCurrPage] = useState(0)
+    const [scrollFunctions, setScrollFunctions] = useState({})
+    const [scrollButtons, setScrollButtons] = useState([])
 
     const handlePageChange = (event) => {
       setCurrPage(event.target.value)
       setMenuOpen(false)
+      window.scrollTo(0, 0)
     }
 
     const handleMenuClick = (event) => {
@@ -75,9 +96,9 @@ export default function WindowFrame() {
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
-      2: '6.111 Sound Isolator',
-      3: '6.002 Velocity Sensor',
-      4: '6.A01 Brushless Motor',
+      //2: '6.111 Sound Isolator',
+      //3: '6.002 Velocity Sensor',
+      //4: '6.A01 Brushless Motor',
       5: 'nugs.net Exploit',
       6: 'Recorded Music',
       7: 'Outdoor Leadership'
@@ -130,16 +151,28 @@ export default function WindowFrame() {
             </Tooltip>
           </Toolbar>
         </AppBar>
+        <div style={{flexDirection: 'row', display: 'flex'}}>
+
+        <Card className={styles.card}>
+          <CardContent>
+              {scrollButtons.map((key, index) => (
+                <Typography className={styles.scrollButtons} onClick={scrollFunctions[Object.keys(scrollFunctions)[index]]}><b>{key}</b></Typography>
+              ))}
+          </CardContent>
+        </Card>
         <Container className={styles.container} maxWidth='md'>
-          {currPage == 0 && <Home /> }
-          {currPage == 1 && <Sampler /> }
+          {currPage == 0 && <Home setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
+          {currPage == 1 && <Sampler setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 2 && <FPGA />}
           {currPage == 3 && <Circuits />}
           {currPage == 4 && <Motor />}
-          {currPage == 5 && <Nugs /> }
-          {currPage == 6 && <Music />}
-          {currPage == 7 && <Outside />}
+          {currPage == 5 && <Nugs setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
+          {currPage == 6 && <Music setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} />}
+          {currPage == 7 && <Outside  setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions}/>}
         </Container>
+        </div>
       </div>
     )
 }
+
+// in progress pages

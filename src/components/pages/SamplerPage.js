@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Typography, Divider
 } from '@material-ui/core'
@@ -21,9 +21,31 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Sampler() {
+export default function Sampler(props) {
 
     const styles = useStyles()
+
+    const backgroundRef = useRef(null)
+    const capabilitiesRef = useRef(null)
+    const challengesRef = useRef(null)
+    const demoRef = useRef(null)
+
+    useEffect(() => {
+        props.setScrollFunctions({
+            backgroundScroll: (e) => window.scrollTo(0, backgroundRef.current.offsetTop - 60) ,
+            capabilitiesScroll: (e) => window.scrollTo(0, capabilitiesRef.current.offsetTop - 60), 
+            challengesScroll: (e) => window.scrollTo(0, challengesRef.current.offsetTop - 60), 
+            demoScroll: (e) => window.scrollTo(0, demoRef.current.offsetTop - 60), 
+
+        })
+        props.setScrollButtons([
+            'Background',
+            'Capabilities',
+            'Challenges',
+            'Demonstration',
+        ])
+    }, [])
+
 
     const introText = [
         'Background',
@@ -74,24 +96,28 @@ export default function Sampler() {
 
     return (
         <>
-            <BasicBlock header={introText[0]} paragraph={introText[1]} />
-            <BasicImage src="/projects/sampler_pic.jpg" width="504" height="378" caption="The final product"/>
-            <BasicBlock header={functionsText[0]} paragraph={functionsText[1]} />
-            <BasicImage src="/projects/song_ui.png" width="60%" height="60%" caption="Browser UI"/>
-            <BasicBlock header={challengesText[0]} paragraph={challengesText[1]} />
-            <BasicHeader text="Demonstration" />
-            <div className={styles.imgContainer}>
-                <iframe width="560" height="315"
-                    src="https://www.youtube.com/embed/D0RY7BqFPo0" 
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-            </div>
-            <div className={styles.imgContainer}>
-                <Typography variant='body2'><i>Recorded by teammate for final report</i></Typography>
-            </div>
+        <div ref={backgroundRef} />
+        <BasicBlock header={introText[0]} paragraph={introText[1]} />
+        <BasicImage src="/projects/sampler_pic.jpg" width="504" height="378" caption="The final product"/>
+        <div ref={capabilitiesRef} />
+        <BasicBlock header={functionsText[0]} paragraph={functionsText[1]} />
+        <BasicImage src="/projects/song_ui.png" width="60%" height="60%" caption="Browser UI"/>
+        <div ref={challengesRef} />
+        <BasicBlock header={challengesText[0]} paragraph={challengesText[1]} />
+        <div ref={demoRef} />
+        <BasicHeader text="Demonstration" />
+        <div className={styles.imgContainer}>
+            <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/D0RY7BqFPo0" 
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div className={styles.imgContainer}>
+            <Typography variant='body2'><i>Recorded by teammate for final report</i></Typography>
+        </div>
         </>
     )
 }
