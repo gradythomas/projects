@@ -8,6 +8,8 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import MusicNoteIcon from '@material-ui/icons/MusicNote'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import EmailIcon from '@material-ui/icons/Email'
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+
 import { makeStyles } from '@material-ui/core/styles'
 import Home from './pages/HomePage'
 import Sampler from './pages/SamplerPage'
@@ -41,7 +43,35 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 40,
     marginRight: 0,
     position: 'fixed',
-    padding: 10
+    padding: 10,
+  },
+  cardMinimized: {
+    margin: 20,
+    width:70,
+    height: 70,
+    backgroundColor: theme.palette.primary.main,
+    position: 'fixed',
+    display: 'flex',
+    justifyContent: 'center',
+    marginLeft: 200
+  },
+  expandButton: {
+
+  },
+  minButton: {
+    marginLeft:310
+  },
+  expandIcon: {
+    width: 40,
+    height: 40,
+    color: 'black',
+    marginLeft: 10
+  },
+  minIcon: {
+    width: 40,
+    height: 40,
+    color: 'black',
+
   },
   scrollButtons: {
     color: '#171727',
@@ -61,6 +91,7 @@ export default function WindowFrame() {
     const [currPage, setCurrPage] = useState(0)
     const [scrollFunctions, setScrollFunctions] = useState({})
     const [scrollButtons, setScrollButtons] = useState([])
+    const [expandedView, setExpandedView] = useState(false)
 
     const handlePageChange = (event) => {
       setCurrPage(event.target.value)
@@ -103,6 +134,25 @@ export default function WindowFrame() {
       6: 'Recorded Music',
       7: 'Outdoor Leadership'
     }
+
+    let sidebar = expandedView? 
+    <Card className={styles.cardMinimized}>
+      <IconButton edge="start"  onClick={() => setExpandedView(false)} className={styles.expandButton}>
+        <AspectRatioIcon className={styles.expandIcon}/>
+      </IconButton>
+    </Card>
+    : 
+    <Card className={styles.card}>
+      <IconButton edge="start"  onClick={() => setExpandedView(true)} className={styles.minButton}>
+        <AspectRatioIcon className={styles.minIcon}/>
+      </IconButton>
+      <CardContent>
+          {scrollButtons.map((key, index) => (
+            <Typography className={styles.scrollButtons} onClick={scrollFunctions[Object.keys(scrollFunctions)[index]]}><b>{key}</b></Typography>
+          ))}
+      </CardContent>
+    </Card>
+  
 
     return (
       <div className={styles.root}>
@@ -153,14 +203,8 @@ export default function WindowFrame() {
         </AppBar>
         <div style={{flexDirection: 'row', display: 'flex'}}>
 
-        <Card className={styles.card}>
-          <CardContent>
-              {scrollButtons.map((key, index) => (
-                <Typography className={styles.scrollButtons} onClick={scrollFunctions[Object.keys(scrollFunctions)[index]]}><b>{key}</b></Typography>
-              ))}
-          </CardContent>
-        </Card>
-        <Container className={styles.container} maxWidth='md'>
+        {sidebar}
+        <Container className={styles.container} maxWidth={expandedView? 'lg': 'md'}>
           {currPage == 0 && <Home setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 1 && <Sampler setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 2 && <FPGA />}
@@ -168,7 +212,7 @@ export default function WindowFrame() {
           {currPage == 4 && <Motor />}
           {currPage == 5 && <Nugs setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 6 && <Music setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} />}
-          {currPage == 7 && <Outside  setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions}/>}
+          {currPage == 7 && <Outside  expandedView={expandedView} setExpandedView={setExpandedView} setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions}/>}
         </Container>
         </div>
       </div>
