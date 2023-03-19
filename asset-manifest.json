@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/static/js/main.cb38510c.js",
-    "index.html": "/index.html",
-    "main.cb38510c.js.map": "/static/js/main.cb38510c.js.map"
+    "main.js": "/projects/static/js/main.cb38510c.js",
+    "index.html": "/projects/index.html",
+    "main.cb38510c.js.map": "/projects/static/js/main.cb38510c.js.map"
   },
   "entrypoints": [
     "static/js/main.cb38510c.js"
