@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1
   },
   card: {
-    width: 400,
+    maxWidth:200,
     height: 'auto',
     backgroundColor: theme.palette.primary.main,//'#a1abb5',
     margin: 20,
     marginLeft: 40,
     marginRight: 0,
     position: 'fixed',
-    padding: 10,
+    padding: 5,
   },
   cardMinimized: {
     margin: 20,
@@ -53,13 +53,13 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
-    marginLeft: 200
+    marginLeft: 50
   },
   expandButton: {
 
   },
   minButton: {
-    marginLeft:310
+    marginLeft:110
   },
   expandIcon: {
     width: 40,
@@ -201,9 +201,10 @@ export default function WindowFrame() {
             </Tooltip>
           </Toolbar>
         </AppBar>
-        <div style={{flexDirection: 'row', display: 'flex'}}>
+        <div style={{flexDirection: 'row', display: 'flex', flex: 1}}>
 
-        {sidebar}
+        <div>{sidebar}</div>
+        <div style={{margin: 'auto'}}>
         <Container className={styles.container} maxWidth={expandedView? 'lg': 'md'}>
           {currPage == 0 && <Home setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 1 && <Sampler setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
@@ -214,6 +215,7 @@ export default function WindowFrame() {
           {currPage == 6 && <Music setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} />}
           {currPage == 7 && <Outside  expandedView={expandedView} setExpandedView={setExpandedView} setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions}/>}
         </Container>
+        </div>
         </div>
       </div>
     )

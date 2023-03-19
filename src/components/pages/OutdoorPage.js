@@ -16,7 +16,6 @@ export default function Outside(props) {
     const mitocRef = useRef(null)
     const moondanceRef = useRef(null)
     const certsRef = useRef(null)
-    const photoRef = useRef(null)
 
     useEffect(() => {
         props.setScrollFunctions({
@@ -25,21 +24,19 @@ export default function Outside(props) {
             mitocScroll: (e) => window.scrollTo(0, mitocRef.current.offsetTop - 60), 
             moondanceScroll: (e) => window.scrollTo(0, moondanceRef.current.offsetTop - 60), 
             certsScroll: (e) => window.scrollTo(0, certsRef.current.offsetTop - 60),
-            photoScroll: (e) => window.scrollTo(0, photoRef.current.offsetTop - 60), 
         })
         props.setScrollButtons([
             'Boy Scouts',
             'NOLS',
             'MIT Outing Club',
             'Moondance Adventures',
-            'Certifications',
-            'Photography'
+            'Certifications'
         ])
     }, [])
 
     const scoutsText = [
         'Boy Scouts',
-        'Growing up, I spent a lot of time playing and being outside. My first exposure to leadership in the woods was with Scouts, where I progressed from a rookie in 6th grade to an Eagle Scout by 11th grade. Scouts taught me a lot of t lessons about working in a team, the importance of being stewards of our natural places, and being independent and self-sufficient. For my Eagle Scout project, I built a trail at a local park. My project was my first experience with any kind of project or team management, and I learned how to manage logistics and a budget for the first time. I am very grateful for my time in Scouts, and plan to be a Scoutmaster some day to give others the same experience I had.'
+        'Growing up, I spent a lot of time playing and being outside. My first exposure to leadership in the woods was with Scouts, where I progressed from a rookie in 6th grade to an Eagle Scout by 11th grade. Scouts taught me a lot of lessons about working in a team, the importance of being stewards of our natural places, and being independent and self-sufficient. For my Eagle Scout project, I built a trail at a local park. My project was my first experience with any kind of project or team management, and I learned how to manage logistics and a budget for the first time. I am very grateful for my time in Scouts, and plan to be a Scoutmaster some day to give others the same experience I had.'
     ]
 
     const nolsText = [
@@ -55,7 +52,8 @@ export default function Outside(props) {
         'We learned quite quickly that living on a glacier is hard. When the sun was out the glacier acted as a sort of icy solar oven, making the heat overwhelming and softening snow. When the sun was hidden, it could drop below freezing. Storms on the glacier were especially intense, as its smooth surface meant that winds could get extreme quite quickly. Snow or rain of some kind occurred for some time almost every day. On top of the weather, we had to create a new camp every time we moved - probing in a programmatic fashion to make sure the area is free of crevasses, staking flags to make this probed perimeter visible, digging out a bathroom area and privacy wall, digging out a kitchen with wind walls, stomping tent platforms and setting up tents, building wind walls for tents if it was storming - exhausting work that would be destroyed the next day as we moved on. \
         <br /><br />But it was a truly incredible place that we were suffering in. We were just dots on a big white pancake ringed by dramatic, icy peaks, slowly trudging over crevasses and icy streams and past rumbling avalanches. Everyday on the rope, you were quite spread out and as such completely alone with your thoughts, in silence far from civilization or even other living creatures. Usually for an hour a time before taking a break, then back into your own head. It was a very unique experience to spend that much time alone with myself in such an amazing place. On the other side of the spectrum, we sometimes spent days huddled in our tents in groups of 3 and 4 hunkering out a big storm. In total, we spent 12 exhausting but amazing days exploring the Nelchina glacier.',
         'After a brutal 14 hour push to get off the glacier, we had the opportunity the next day to ice climb, and then began our trek back to the road. Spring had sprung in the valley while we were on the ice; everything was green, water was flowing, flowers were blooming. It was amazing the difference 2 weeks had made.',
-        'Emerging from our first 3-week backcountry expedition was an experience in itself. We were fairly filthy, exhausted, and unused to people or noise or plumbing. We had about 48 hours to decompress, shower, sleep, eat, decomission mountaineering gear, get sea kayaking gear, brief our route, and leave for Whittier, our launching point.'
+        'Emerging from our first 3-week backcountry expedition was an experience in itself. We were fairly filthy, exhausted, and unused to people or noise or plumbing. We had about 48 hours to decompress, shower, sleep, eat, decomission mountaineering gear, get sea kayaking gear, brief our route, and leave for Whittier, our launching point.',
+        'Finishing Sea Kayaking meant getting fully dry for the first time in 25 days - we were still living in tents, but at least we had laundry, indoor space, and there was no sand! To finish our semester we had the backpacking section. We had been looking forward to this. July often had the nicest weather, there was no special gear or anything, we were just hiking and excited to explore the Talkeetna mountains. Over the course of 3 weeks we traversed the full spread of the Northern Talkeetnas, about 80ish miles of off trail hiking, scrambling, and route-finding in the Alaskan tundra.'
         
     ]
 
@@ -75,16 +73,6 @@ export default function Outside(props) {
         '- Wilderness First Responder<br />- Wilderness First Aid<br />- CPR + AED Certified'
     ]
 
-    const photography = [
-        'Photography',
-        'On all of my trips I have had a small point and shoot camera that I like to take landscape pictures with. Recently I have started editing my pictures in Adobe Lightroom and have some pictures I am proud of. ',
-        'Midnight sunset in the Talkeetnas on NOLS',
-        'A small flower in the same field as the previous picture',
-        'Denali, the tallest mountain in North America, from the saddle of a peak in the Talkeetnas',
-        'Looking up-glacier at the rope teams behind me on the Nelchina'
-
-
-    ]
 
     let photoWidth = props.expandedView? "1000": "800"
 
@@ -115,6 +103,8 @@ export default function Outside(props) {
         <h2 style={{  margin: 0 }}>Full Trip Report</h2>
         <Divider />
         <br />
+        <h3><b>Section 1: Mountaineering</b></h3>
+        <BasicImage src="/projects/trip_report/mountaineering_topo.PNG" width={photoWidth} height="auto" caption={"Our route up the Nelchina glacier in the Chugach Mountains."} />
         <BasicParagraph text={nolsText[3]} />
         <BasicImage src="/projects/trip_report/goober_lake_frozen.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the summer, Goober Lake."} />
         <BasicImage src="/projects/trip_report/bog_day2.jpg" width={photoWidth} height="auto" caption={"Looking up the Nelchina River valley (through frozen swamp)."} />
@@ -151,6 +141,10 @@ export default function Outside(props) {
         <BasicImage src="/projects/trip_report/moraine_pond_camp2.jpg" width={photoWidth} height="auto" caption={""} />
         <BasicImage src="/projects/trip_report/water_canyon.jpg" width={photoWidth} height="auto" caption={"The ice canyon was now a water canyon."} />
         <BasicImage src="/projects/trip_report/hiking_out_gravel.jpg" width={photoWidth} height="auto" caption={""} />
+
+        <h3><b>Section 2: Sea Kayaking</b></h3>
+        <Divider />
+        <BasicImage src="/projects/trip_report/sea_kayak_topo.PNG" width={photoWidth} height="auto" caption={"Our route through Southern Prince William Sound."} />
         <BasicParagraph text={nolsText[7]} />
         <br />
         <BasicImage src="/projects/trip_report/point_noel1.jpg" width={photoWidth} height="auto" caption={"Point Noel, the beach where we were dropped off."} />
@@ -158,8 +152,29 @@ export default function Outside(props) {
         <BasicImage src="/projects/trip_report/shrimp_boat_point_noel.jpg" width={photoWidth} height="auto" caption={""} />
         <BasicImage src="/projects/trip_report/grilling_salmon.jpg" width={photoWidth} height="auto" caption={"Fresh salmon from fishermen grilled over a flame on the beach."} />
         <BasicImage src="/projects/trip_report/camp_2.jpg" width={photoWidth} height="auto" caption={"Our campsite after our first travel day in kayaks."} />
+        <BasicImage src="/projects/trip_report/sea_view1.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/nassau_fjord_water.jpg" width={photoWidth} height="auto" caption={"The water in Nassau fjord made turquoise by its glacier."} />
+        <BasicImage src="/projects/trip_report/nassau_fjord_glacier.jpg" width={photoWidth} height="auto" caption={"The Chenega Glacier at the head of Nassau fjord."} />
+        <BasicImage src="/projects/trip_report/nassau_fjord_tents.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/nassau_fjord_beach.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/nassau_fjord_icebergs.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/grady_nassau_fjord.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/sea_view2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/sea_view3.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/sea_view4.jpg" width={photoWidth} height="auto" caption={"Traveling through Bainbridge Passage."} />
+        <BasicImage src="/projects/trip_report/sea_view5.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/projects/trip_report/sea_view6.jpg" width={photoWidth} height="auto" caption={"The Bainbridge Glacier in the distance."} />
+        <h3><b>Section 3: Backpacking</b></h3>
+        <Divider />
+        <BasicImage src="/projects/trip_report/backpacking_topo.PNG" width={photoWidth} height="auto" caption={"Our route across the Northern Talkeetnas."} />
+        <BasicParagraph text={nolsText[8]} />
+        <br />
+        <BasicImage src="/projects/trip_report/first_backpack_camp.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the section. It felt bittersweet that we were starting our final section."} />
+        <BasicImage src="/projects/nols_talkeetna_denali_blue.jpg" width={photoWidth} height="auto" caption={"The mighty Denali towering above everything else!"} />
+        <BasicImage src="/projects/trip_report/hidden_valley1.jpg" width={photoWidth} height="auto" caption={"One of our ISGE campsites."} />
+        <BasicImage  src="/projects/nols_talkeetna_sun_hills.jpg" width={photoWidth} height="auto" caption={"A midnight sunset at our last ISGE campsite."} />
+        <BasicImage src="/projects/nols_talkeetna_flower.jpg" width={photoWidth} height="auto" caption={""} />
         
-
 
 
 
@@ -169,12 +184,8 @@ export default function Outside(props) {
         <BasicBlock header={moondanceText[0]} paragraph={moondanceText[1]} />
         <div ref={certsRef} />
         <BasicBlock header={certsText[0]} paragraph={certsText[1]} />
-        <div ref={photoRef} />
-        <BasicBlock header={photography[0]} paragraph={photography[1]} />
-        <BasicImage  src="/projects/nols_talkeetna_sun_hills.jpg" width="800" height="auto" caption={photography[2]} />
-        <BasicImage src="/projects/nols_talkeetna_flower.jpg" width="800" height="auto" caption={photography[3]} />
-        <BasicImage src="/projects/nols_talkeetna_denali_blue.jpg" width="800" height="auto" caption={photography[4]} />
-        <BasicImage src="/projects/nols_nelchina_wide.jpg" width="800" height="auto" caption={photography[5]} />
+
+        
         </>
     )
 }
