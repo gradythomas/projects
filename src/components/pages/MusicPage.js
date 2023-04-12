@@ -39,11 +39,17 @@ export default function Music(props) {
     }, [])
 
     const introText = [
-        'About',
+        'Music',
         'Guitar playing and music have been one of my biggest hobbies for about 8 years now. While I also love listening to music, \
         a few years ago I began recording my own music. That has since snowballed into a big interest in music production and \
         technology. I have recorded a fair amount of songs, but at this point only released one, with my friend Lonnie Reid \
         on vocals (as well as lyric songwriting). I also have a SoundCloud profile with more in progress work.'
+    ]
+
+    const artText = [
+        'Art',
+        'I have begun to experiment with AI art and music visualization. I have spent a lot of time in Midjourney, where I create art and designs, Photoshop them, and then sell \
+        products on my <a href=\"https://gradythomas.redbubble.com\">Redbubble</a> shop. I also have some various projects in a Java library called Processing, which can be found in my github.'
     ]
 
 
@@ -73,6 +79,7 @@ export default function Music(props) {
         </iframe>
         
         </div>
+        <BasicBlock header={artText[0]} paragraph={artText[1]} />
         </>
     )
 }

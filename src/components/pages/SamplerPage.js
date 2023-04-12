@@ -98,10 +98,10 @@ export default function Sampler(props) {
         <>
         <div ref={backgroundRef} />
         <BasicBlock header={introText[0]} paragraph={introText[1]} />
-        <BasicImage src="/projects/sampler_pic.jpg" width="504" height="378" caption="The final product"/>
+        <BasicImage src="/sampler_pic.jpg" width="504" height="378" caption="The final product"/>
         <div ref={capabilitiesRef} />
         <BasicBlock header={functionsText[0]} paragraph={functionsText[1]} />
-        <BasicImage src="/projects/song_ui.png" width="60%" height="60%" caption="Browser UI"/>
+        <BasicImage src="/song_ui.png" width="60%" height="60%" caption="Browser UI"/>
         <div ref={challengesRef} />
         <BasicBlock header={challengesText[0]} paragraph={challengesText[1]} />
         <div ref={demoRef} />

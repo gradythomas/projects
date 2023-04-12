@@ -44,7 +44,7 @@ export default function Home(props) {
         and minoring in History. I am most interested in embedded system development, audio circuits and projects, and generally stuff that physically interact with the world around us. \
         This site has a little bit about various school and personal projects I have completed. Outside of school, I love music, \
         especially playing guitar, recording and making music, and seeing live shows. I also really enjoy being outside and climbing, hiking, biking, and camping. I am involved in \
-        the outdoors community at MIT as a Co-Leader with the Outing Club and am a graduate of the 2021 NOLS Summer Semester in Alaska program, where I spent 75 days mountaineering, \
+        the outdoors community at MIT as the President of the Outing Club and am a graduate of the 2021 NOLS Summer Semester in Alaska program, where I spent 75 days mountaineering, \
         backpacking, and sea kayaking in the Alaskan backcountry. I grew up in Atlanta where I went to The Westminster Schools and now live in Boston while I attend MIT.'
     ]
 
@@ -59,17 +59,17 @@ export default function Home(props) {
         <>
         <div ref={aboutRef} style={{ display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>
             <BasicBlock header={introText[0]} paragraph={introText[1]} />
-            <img style={{ marginLeft: 50, marginTop: 10 }} src="/projects/self_pic.jpeg" height="321" width="271"/>
+            <img style={{ marginLeft: 50, marginTop: 10 }} src="/self_pic.jpeg" height="321" width="271"/>
         </div>
         <div ref={designRef} />
         <BasicBlock header={designText[0]} paragraph={designText[1]} />
         <Divider className={styles.divider} />
         <div style={{ marginTop: 40, justifyContent: 'space-around', display: 'flex', flexDirection: 'row', flexWrap: window.innerWidth < 750? 'wrap' : 'nowrap' }}>
-            <img  height="504" width="378" src="/projects/climbing_pic1.png" />
-            <img   height="504" width="378" src="/projects/glacier_pic2.png" />
+            <img  height="504" width="378" src="/climbing_pic1.png" />
+            <img   height="504" width="378" src="/glacier_pic2.png" />
         </div>
         <div style={{ marginTop: 40, justifyContent: 'space-around', display: 'flex'}} >
-        <img height="604" width="806" src="/projects/mountain_pic.jpg" />
+        <img height="604" width="806" src="/mountain_pic.jpg" />
         </div>
         <Typography component="div" style={{ height: '20vh' }} />
         </>

@@ -44,7 +44,7 @@ export default function Outside(props) {
         'In 2020 I took a gap year due to COVID-19, where I worked at Georgia Tech Research Institute as a software engineer Co-Op from May 2020 until May 2021. That summer, I did a NOLS semester in Alaska where we spent 75 days in the backcountry, camping the entire time. The course was split into three sections, mountaineering, sea kayaking, and backpacking. We spent the whole summer with the same other eight people, learning to work with and lead each other. NOLS is first and foremost a leadership school (National Outdoor Leadership School) and we spent a lot of time learning about various leadership tenets and styles, better communication, how to give and receive feedback, and other important soft skills. We also got to practice these skills every day as designated leaders or our smaller cook groups. We also spent time learning hard skills relevant to the current terrain and activity, such as glacier travel and snow anchors on the Nelchina glacier, reading weather and sea conditions in Prince William Sound, and navigation and route-finding in the Talkeetna Mountains. \
         <br /><br />NOLS was an extremely transformative experience for me. I had just come out of a year living at home during the pandemic when my mental health and self-confidence had been at an all time low. Spending that much time outside in an incredible place would have been amazing by itself; but the challenges that came with the leadership practice and navigating unique social situations (i.e. living with the same people for so long) forced me to grow and reflect in ways I never had before. It also left me with a renewed passion for the outdoors and protecting our planet.',
         'The farthest north route is where we did backpacking, the central one mountaineering, and the farthest south sea kayaking. During my trip, I used a Garmin Instinct GPS watch to save a waypoint for each campsite. When I got home, I imported the data into <a href=\"https://caltopo.com/\" target=\"__blank\">CalTopo</a>, a wonderful online mapping resource, and generated these maps. \
-        <a href=\"/projects/routes_topo.pdf\" target=\"_blank\">Here</a> is a pdf the individual route topo maps, and <a href=\"/projects/routes_satellite.pdf\" target=\"_blank\">here</a> are the satellite maps. In CalTopo, I added lines between campsites and for side excursions like peak ascents (this interactive map can be viewed <a href=\"https://caltopo.com/\" target=\"__blank\">here</a>) and then exported the route data into Google Earth.  \
+        <a href=\"/routes_topo.pdf\" target=\"_blank\">Here</a> is a pdf the individual route topo maps, and <a href=\"/routes_satellite.pdf\" target=\"_blank\">here</a> are the satellite maps. In CalTopo, I added lines between campsites and for side excursions like peak ascents (this interactive map can be viewed <a href=\"https://caltopo.com/\" target=\"__blank\">here</a>) and then exported the route data into Google Earth.  \
         In Google Earth I recorded a tour as a sort of flyby through the mountains with 3D imagery:',
         'Our first section as a new group christened \"SAK 1\" was mountaineering. Only a few days after meeting each other and our instructors, we set out into the Chugach National Forest \
         on our 3 day approach to the Nelchina glacier, where we would meet a pilot bringing in our snow and glacier gear, as well as our next ration of food.',
@@ -80,13 +80,13 @@ export default function Outside(props) {
         <>
         <div ref={scoutsRef} />
         <BasicBlock header={scoutsText[0]} paragraph={scoutsText[1]} />
-        <BasicImage src="/projects/trail_pic.JPG" width="504" height="378" caption="A portion of the trail"/>
+        <BasicImage src="/trail_pic.JPG" width="504" height="378" caption="A portion of the trail"/>
 
 
         <div ref={nolsRef} />
         <BasicBlock header={nolsText[0]} paragraph={nolsText[1]} />
 
-        <BasicImage src="/projects/nols_map_img.PNG" width="800" height="auto" caption={"The areas of our expeditions layed out around Palmer, the location of the NOLS farm"} />
+        <BasicImage src="/nols_map_img.PNG" width="800" height="auto" caption={"The areas of our expeditions layed out around Palmer, the location of the NOLS farm"} />
         <BasicParagraph text={nolsText[2]} />
         <div style={{ display: 'flex', justifyContent: 'center', padding: 30, margin: 10 }}>
             <iframe 
@@ -104,76 +104,76 @@ export default function Outside(props) {
         <Divider />
         <br />
         <h3><b>Section 1: Mountaineering</b></h3>
-        <BasicImage src="/projects/trip_report/mountaineering_topo.PNG" width={photoWidth} height="auto" caption={"Our route up the Nelchina glacier in the Chugach Mountains."} />
+        <BasicImage src="/trip_report/mountaineering_topo.PNG" width={photoWidth} height="auto" caption={"Our route up the Nelchina glacier in the Chugach Mountains."} />
         <BasicParagraph text={nolsText[3]} />
-        <BasicImage src="/projects/trip_report/goober_lake_frozen.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the summer, Goober Lake."} />
-        <BasicImage src="/projects/trip_report/bog_day2.jpg" width={photoWidth} height="auto" caption={"Looking up the Nelchina River valley (through frozen swamp)."} />
-        <BasicImage src="/projects/trip_report/camp_day3.jpg" width={photoWidth} height="auto" caption={"Camp day 2."} />
-        <BasicImage src="/projects/trip_report/group_day3.jpg" width={photoWidth} height="auto" caption={"The group day 3, making progress up the valley."} />
-        <BasicImage src="/projects/trip_report/grady_day3.jpg" width={photoWidth} height="auto" caption={"Our first look at the mighty Nelchina glacier."} />
-        <BasicImage src="/projects/trip_report/nelchina_day3.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/goober_lake_frozen.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the summer, Goober Lake."} />
+        <BasicImage src="/trip_report/bog_day2.jpg" width={photoWidth} height="auto" caption={"Looking up the Nelchina River valley (through frozen swamp)."} />
+        <BasicImage src="/trip_report/camp_day3.jpg" width={photoWidth} height="auto" caption={"Camp day 2."} />
+        <BasicImage src="/trip_report/group_day3.jpg" width={photoWidth} height="auto" caption={"The group day 3, making progress up the valley."} />
+        <BasicImage src="/trip_report/grady_day3.jpg" width={photoWidth} height="auto" caption={"Our first look at the mighty Nelchina glacier."} />
+        <BasicImage src="/trip_report/nelchina_day3.jpg" width={photoWidth} height="auto" caption={""} />
         <BasicParagraph text={nolsText[4]} />
-        <BasicImage src="/projects/trip_report/sleds_day5.jpg" width={photoWidth} height="auto" caption={"Some shots from around our re-ration campsite and first layover day."} />
-        <BasicImage src="/projects/trip_report/pizza_day5.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/storm_day5.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/alpenglow1.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/alpenglow3.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/alpenglow2.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/creek_day6.jpg" width={photoWidth} height="auto" caption={"A beautifully clear stream near the base of the glacier."} />
-        <BasicImage src="/projects/trip_report/camp_day6.jpg" width={photoWidth} height="auto" caption={"Our final off-glacier campsite."} />
-        <BasicImage src="/projects/trip_report/grady_day7.jpg" width={photoWidth} height="auto" caption={"Stepping onto the glacier."} />
-        <BasicImage src="/projects/trip_report/rope_team1.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/glacier_sunset1.jpg" width={photoWidth} height="auto" caption={"Our first glacier camp."} />
+        <BasicImage src="/trip_report/sleds_day5.jpg" width={photoWidth} height="auto" caption={"Some shots from around our re-ration campsite and first layover day."} />
+        <BasicImage src="/trip_report/pizza_day5.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/storm_day5.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/alpenglow1.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/alpenglow3.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/alpenglow2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/creek_day6.jpg" width={photoWidth} height="auto" caption={"A beautifully clear stream near the base of the glacier."} />
+        <BasicImage src="/trip_report/camp_day6.jpg" width={photoWidth} height="auto" caption={"Our final off-glacier campsite."} />
+        <BasicImage src="/trip_report/grady_day7.jpg" width={photoWidth} height="auto" caption={"Stepping onto the glacier."} />
+        <BasicImage src="/trip_report/rope_team1.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/glacier_sunset1.jpg" width={photoWidth} height="auto" caption={"Our first glacier camp."} />
         <BasicParagraph text={nolsText[5]} />
         <br />
-        <BasicImage src="/projects/trip_report/glacier_camp2.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/rope_team2.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/rope_team3.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/glacier_last_day1.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/glacier_last_day2.jpg" width={photoWidth} height="auto" caption={"The final push off the glacier into some sinister clouds."} />
-        <BasicImage src="/projects/trip_report/glacier_last_day3.jpg" width={photoWidth} height="auto" caption={"Clear sky looking back up the glacier at the same time."} />
-        <BasicImage src="/projects/trip_report/glacier_last_day4.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/ice_axe.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/glacier_camp2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/rope_team2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/rope_team3.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/glacier_last_day1.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/glacier_last_day2.jpg" width={photoWidth} height="auto" caption={"The final push off the glacier into some sinister clouds."} />
+        <BasicImage src="/trip_report/glacier_last_day3.jpg" width={photoWidth} height="auto" caption={"Clear sky looking back up the glacier at the same time."} />
+        <BasicImage src="/trip_report/glacier_last_day4.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/ice_axe.jpg" width={photoWidth} height="auto" caption={""} />
         <BasicParagraph text={nolsText[6]} />
         <br />
-        <BasicImage src="/projects/trip_report/ice_climbing.jpg" width={photoWidth} height="auto" caption={"Lowering into the crevasse to climb out of."} />
-        <BasicImage src="/projects/trip_report/moraine_pond_camp1.jpg" width={photoWidth} height="auto" caption={"Possibly my favorite campsite of the summer."} />
-        <BasicImage src="/projects/trip_report/moraine_pond_camp2.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/water_canyon.jpg" width={photoWidth} height="auto" caption={"The ice canyon was now a water canyon."} />
-        <BasicImage src="/projects/trip_report/hiking_out_gravel.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/ice_climbing.jpg" width={photoWidth} height="auto" caption={"Lowering into the crevasse to climb out of."} />
+        <BasicImage src="/trip_report/moraine_pond_camp1.jpg" width={photoWidth} height="auto" caption={"Possibly my favorite campsite of the summer."} />
+        <BasicImage src="/trip_report/moraine_pond_camp2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/water_canyon.jpg" width={photoWidth} height="auto" caption={"The ice canyon was now a water canyon."} />
+        <BasicImage src="/trip_report/hiking_out_gravel.jpg" width={photoWidth} height="auto" caption={""} />
 
         <h3><b>Section 2: Sea Kayaking</b></h3>
         <Divider />
-        <BasicImage src="/projects/trip_report/sea_kayak_topo.PNG" width={photoWidth} height="auto" caption={"Our route through Southern Prince William Sound."} />
+        <BasicImage src="/trip_report/sea_kayak_topo.PNG" width={photoWidth} height="auto" caption={"Our route through Southern Prince William Sound."} />
         <BasicParagraph text={nolsText[7]} />
         <br />
-        <BasicImage src="/projects/trip_report/point_noel1.jpg" width={photoWidth} height="auto" caption={"Point Noel, the beach where we were dropped off."} />
-        <BasicImage src="/projects/trip_report/jim_point_noel.jpg" width={photoWidth} height="auto" caption={"Jim Chism, one of my sea kayaking instructors and a NOLS legend."} />
-        <BasicImage src="/projects/trip_report/shrimp_boat_point_noel.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/grilling_salmon.jpg" width={photoWidth} height="auto" caption={"Fresh salmon from fishermen grilled over a flame on the beach."} />
-        <BasicImage src="/projects/trip_report/camp_2.jpg" width={photoWidth} height="auto" caption={"Our campsite after our first travel day in kayaks."} />
-        <BasicImage src="/projects/trip_report/sea_view1.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/nassau_fjord_water.jpg" width={photoWidth} height="auto" caption={"The water in Nassau fjord made turquoise by its glacier."} />
-        <BasicImage src="/projects/trip_report/nassau_fjord_glacier.jpg" width={photoWidth} height="auto" caption={"The Chenega Glacier at the head of Nassau fjord."} />
-        <BasicImage src="/projects/trip_report/nassau_fjord_tents.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/nassau_fjord_beach.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/nassau_fjord_icebergs.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/grady_nassau_fjord.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/sea_view2.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/sea_view3.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/sea_view4.jpg" width={photoWidth} height="auto" caption={"Traveling through Bainbridge Passage."} />
-        <BasicImage src="/projects/trip_report/sea_view5.jpg" width={photoWidth} height="auto" caption={""} />
-        <BasicImage src="/projects/trip_report/sea_view6.jpg" width={photoWidth} height="auto" caption={"The Bainbridge Glacier in the distance."} />
+        <BasicImage src="/trip_report/point_noel1.jpg" width={photoWidth} height="auto" caption={"Point Noel, the beach where we were dropped off."} />
+        <BasicImage src="/trip_report/jim_point_noel.jpg" width={photoWidth} height="auto" caption={"Jim Chism, one of my sea kayaking instructors and a NOLS legend."} />
+        <BasicImage src="/trip_report/shrimp_boat_point_noel.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/grilling_salmon.jpg" width={photoWidth} height="auto" caption={"Fresh salmon from fishermen grilled over a flame on the beach."} />
+        <BasicImage src="/trip_report/camp_2.jpg" width={photoWidth} height="auto" caption={"Our campsite after our first travel day in kayaks."} />
+        <BasicImage src="/trip_report/sea_view1.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/nassau_fjord_water.jpg" width={photoWidth} height="auto" caption={"The water in Nassau fjord made turquoise by its glacier."} />
+        <BasicImage src="/trip_report/nassau_fjord_glacier.jpg" width={photoWidth} height="auto" caption={"The Chenega Glacier at the head of Nassau fjord."} />
+        <BasicImage src="/trip_report/nassau_fjord_tents.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/nassau_fjord_beach.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/nassau_fjord_icebergs.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/grady_nassau_fjord.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/sea_view2.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/sea_view3.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/sea_view4.jpg" width={photoWidth} height="auto" caption={"Traveling through Bainbridge Passage."} />
+        <BasicImage src="/trip_report/sea_view5.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/sea_view6.jpg" width={photoWidth} height="auto" caption={"The Bainbridge Glacier in the distance."} />
         <h3><b>Section 3: Backpacking</b></h3>
         <Divider />
-        <BasicImage src="/projects/trip_report/backpacking_topo.PNG" width={photoWidth} height="auto" caption={"Our route across the Northern Talkeetnas."} />
+        <BasicImage src="/trip_report/backpacking_topo.PNG" width={photoWidth} height="auto" caption={"Our route across the Northern Talkeetnas."} />
         <BasicParagraph text={nolsText[8]} />
         <br />
-        <BasicImage src="/projects/trip_report/first_backpack_camp.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the section. It felt bittersweet that we were starting our final section."} />
-        <BasicImage src="/projects/nols_talkeetna_denali_blue.jpg" width={photoWidth} height="auto" caption={"The mighty Denali towering above everything else!"} />
-        <BasicImage src="/projects/trip_report/hidden_valley1.jpg" width={photoWidth} height="auto" caption={"One of our ISGE campsites."} />
-        <BasicImage  src="/projects/nols_talkeetna_sun_hills.jpg" width={photoWidth} height="auto" caption={"A midnight sunset at our last ISGE campsite."} />
-        <BasicImage src="/projects/nols_talkeetna_flower.jpg" width={photoWidth} height="auto" caption={""} />
+        <BasicImage src="/trip_report/first_backpack_camp.jpg" width={photoWidth} height="auto" caption={"Our first campsite of the section. It felt bittersweet that we were starting our final section."} />
+        <BasicImage src="/nols_talkeetna_denali_blue.jpg" width={photoWidth} height="auto" caption={"The mighty Denali towering above everything else!"} />
+        <BasicImage src="/trip_report/hidden_valley1.jpg" width={photoWidth} height="auto" caption={"One of our ISGE campsites."} />
+        <BasicImage  src="/nols_talkeetna_sun_hills.jpg" width={photoWidth} height="auto" caption={"A midnight sunset at our last ISGE campsite."} />
+        <BasicImage src="/nols_talkeetna_flower.jpg" width={photoWidth} height="auto" caption={""} />
         
 
 

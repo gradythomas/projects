@@ -113,7 +113,7 @@ export default function WindowFrame() {
     }
 
     const openResume = (event) => {
-      window.open("/projects/ResumePDF.pdf", "_blank")
+      window.open("/ResumePDF.pdf", "_blank")
     }
 
     const openSpotify = (event) => {
@@ -131,7 +131,7 @@ export default function WindowFrame() {
       //3: '6.002 Velocity Sensor',
       //4: '6.A01 Brushless Motor',
       5: 'nugs.net Exploit',
-      6: 'Recorded Music',
+      6: 'Music & Art',
       7: 'Outdoor Leadership'
     }
 
