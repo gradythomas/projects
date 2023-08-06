@@ -11,6 +11,12 @@ export default function App() {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
+        <head>
+        <link
+            href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css"
+            rel="stylesheet"
+        />
+        </head>
         <WindowFrame />
       </ThemeProvider>
   );

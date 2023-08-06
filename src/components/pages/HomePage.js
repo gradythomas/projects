@@ -5,6 +5,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import BasicBlock from '../elements/BasicBlock'
 
+
 const useStyles = makeStyles((theme) => ({
     blogHeader: {
         marginBottom: 10,

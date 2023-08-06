@@ -19,6 +19,7 @@ import Music from './pages/MusicPage'
 import Outside from './pages/OutdoorPage'
 import FPGA from './pages/FPGAPage'
 import Circuits from './pages/CircuitsPage'
+import GuitarAmp from './pages/GuitarAmpPage'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -127,6 +128,7 @@ export default function WindowFrame() {
     const pages = {
       0: 'Home',
       1: '6.08 Sampler Project',
+      2: '6.131 Guitar Amplifier Project',
       //2: '6.111 Sound Isolator',
       //3: '6.002 Velocity Sensor',
       //4: '6.A01 Brushless Motor',
@@ -208,7 +210,7 @@ export default function WindowFrame() {
         <Container className={styles.container} maxWidth={expandedView? 'lg': 'md'}>
           {currPage == 0 && <Home setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 1 && <Sampler setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
-          {currPage == 2 && <FPGA />}
+          {currPage == 2 && <GuitarAmp />}
           {currPage == 3 && <Circuits />}
           {currPage == 4 && <Motor />}
           {currPage == 5 && <Nugs setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
