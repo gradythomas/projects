@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1
   },
   card: {
-    maxWidth:200,
+    maxWidth:180,
     height: 'auto',
     backgroundColor: theme.palette.primary.main,//'#a1abb5',
     margin: 20,
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
-    marginLeft: 50
+    marginLeft: 5
   },
   expandButton: {
 
@@ -132,7 +132,7 @@ export default function WindowFrame() {
       //2: '6.111 Sound Isolator',
       //3: '6.002 Velocity Sensor',
       //4: '6.A01 Brushless Motor',
-      5: 'nugs.net Exploit',
+      5: 'Nugs.net Exploit',
       6: 'Music & Art',
       7: 'Outdoor Leadership'
     }
@@ -210,7 +210,7 @@ export default function WindowFrame() {
         <Container className={styles.container} maxWidth={expandedView? 'lg': 'md'}>
           {currPage == 0 && <Home setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
           {currPage == 1 && <Sampler setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }
-          {currPage == 2 && <GuitarAmp />}
+          {currPage == 2 && <GuitarAmp setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} />}
           {currPage == 3 && <Circuits />}
           {currPage == 4 && <Motor />}
           {currPage == 5 && <Nugs setScrollButtons={setScrollButtons} setScrollFunctions={setScrollFunctions} /> }

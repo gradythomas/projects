@@ -11,6 +11,7 @@ import BasicParagraph from '../elements/BasicParagraph';
 
 export default function Outside(props) {
 
+    const introRef = useRef(null)
     const scoutsRef = useRef(null)
     const nolsRef = useRef(null)
     const mitocRef = useRef(null)
@@ -19,18 +20,19 @@ export default function Outside(props) {
 
     useEffect(() => {
         props.setScrollFunctions({
-            scoutsScroll: (e) => window.scrollTo(0, scoutsRef.current.offsetTop - 60) ,
+            introScroll: (e) => window.scrollTo(0, introRef.current.offsetTop - 60),
+            scoutsScroll: (e) => window.scrollTo(0, scoutsRef.current.offsetTop - 60),
             nolsScroll: (e) => window.scrollTo(0, nolsRef.current.offsetTop - 60), 
             mitocScroll: (e) => window.scrollTo(0, mitocRef.current.offsetTop - 60), 
             moondanceScroll: (e) => window.scrollTo(0, moondanceRef.current.offsetTop - 60), 
             certsScroll: (e) => window.scrollTo(0, certsRef.current.offsetTop - 60),
         })
         props.setScrollButtons([
-            'Boy Scouts',
+            'Intro',
+            'Moondance',
             'NOLS',
-            'MIT Outing Club',
-            'Moondance Adventures',
-            'Certifications'
+            'MITOC',
+            'Scouts',
         ])
     }, [])
 
@@ -65,12 +67,16 @@ export default function Outside(props) {
 
     const moondanceText = [
         'Moondance Adventures',
-        'Talk about leading trips, also going on a couple.'
+        'Moondance Adventures is an adventure travel company that takes kids on trips all around the world and is focused on having fun in the outdoors. I was very lucky to have been able to go on a few trips as a student in highschool, and they changed my life. My leaders had a massive impact on me and I realized that doing cool stuff outside brought me more joy than almost anything else. After my first trip to the Pacific Northwest in 2016, I decided I wanted to be a leader someday and hopefully give kids the same experience I had.<br /><br />\
+        6 years later, in 2022, I led my first summer in Alaska on a trip that included a few days of ice climbing and hiking on the Matanuska glacier, a five day sea kayaking section in Prince William Sound, two days of rafting on the Matanuska river, and eight days of backpacking in the Talkeetna mountains. We worked with guides for most activities, but the backpack was led only by my two co-leaders and I. After three weeks of staff training in North Carolina and Nashville, we headed to Anchorage where we would have two 3-week sessions with about ten 17-year-olds each. \
+        It was extremely difficult - we were responsible for the safety and comfort of these kids, some of which who had never been camping before, while also meal planning and cooking, doing first aid, managing the trip budget and logistics, and teaching skills. It also rained pretty much every day. However, it was certainly one of the most rewarding experiences of my life. It was amazing to see these kids grow and develop over only a few short weeks and come together as a team, all in my favorite place on Earth. I developed quite a bit myself, as I got lots of experience having to quickly think and make decisions on my feet, solving difficult social problems, and managing risk. It made me a much better leader, and I decided to do it again the next summer. \
+        <br /><br />In 2023, after my Junior year at MIT, I led another backcountry trip in California with one of my same co-leaders from Alaska who had become one of my best friends. Our trip this summer had three days of surfing in Half Moon Bay, two days of rock climbing in Yosemite Valley, six days of backpacking in the Yosemite Wilderness, two days of rafting on the American River, and finally a three day summit attempt on Mt. Shasta. This trip presented a different set of challenges, as the logistics and driving were quite a burden on top of everything else. Once again, though, this summer had a huge impact on me and helped me become a better teacher and person.'
     ]
 
     const certsText = [
-        'Certifications',
-        '- Wilderness First Responder<br />- Wilderness First Aid<br />- CPR + AED Certified'
+        'Introduction',
+        'I have always loved being outside and for most of my life I have tried to spend as much time in nature as possible while honing my outdoor and leadership skills. I am primarily a climber and hiker, though I love skiing and whitewater as well and am always interested in learning new sports. This page talks about different leadership experiences I have had outside and is a place for me to share pictures and stories.<br /><br />\
+        My credentials:<br />- Wilderness First Responder (WFR)<br />- CPR + AED Certified<br />- Eagle Scout<br />- NOLS Semester in Alaska Graduate<br />- 2 Summers leading trips with Moondance Adventures'
     ]
 
 
@@ -78,10 +84,12 @@ export default function Outside(props) {
 
     return (
         <>
-        <div ref={scoutsRef} />
-        <BasicBlock header={scoutsText[0]} paragraph={scoutsText[1]} />
-        <BasicImage src="/trail_pic.JPG" width="504" height="378" caption="A portion of the trail"/>
 
+        <div ref={introRef} />
+        <BasicBlock header={certsText[0]} paragraph={certsText[1]} />
+
+        <div ref={moondanceRef} />
+        <BasicBlock header={moondanceText[0]} paragraph={moondanceText[1]} />
 
         <div ref={nolsRef} />
         <BasicBlock header={nolsText[0]} paragraph={nolsText[1]} />
@@ -175,15 +183,12 @@ export default function Outside(props) {
         <BasicImage  src="/nols_talkeetna_sun_hills.jpg" width={photoWidth} height="auto" caption={"A midnight sunset at our last ISGE campsite."} />
         <BasicImage src="/nols_talkeetna_flower.jpg" width={photoWidth} height="auto" caption={""} />
         
-
-
-
         <div ref={mitocRef} />
         <BasicBlock header={mitocText[0]} paragraph={mitocText[1]} />
-        <div ref={moondanceRef} />
-        <BasicBlock header={moondanceText[0]} paragraph={moondanceText[1]} />
-        <div ref={certsRef} />
-        <BasicBlock header={certsText[0]} paragraph={certsText[1]} />
+
+        <div ref={scoutsRef} />
+        <BasicBlock header={scoutsText[0]} paragraph={scoutsText[1]} />
+        <BasicImage src="/trail_pic.JPG" width="504" height="378" caption="A portion of the trail"/>
 
         
         </>
