@@ -41,11 +41,11 @@ export default function Home(props) {
 
     const introText = [
         'About Me',
-        'My name is Grady Thomas and I am a third-year student at MIT majoring in Electrical Engineering and Computer Science (6-2) \
-        and minoring in History. I am most interested in embedded system development, audio circuits and projects, and generally stuff that physically interact with the world around us. \
+        'My name is Grady Thomas and I am a fourth-year student at MIT majoring in Electrical Engineering and Computer Science (6-2) \
+        and concentrating in History. I am most interested in embedded system development, audio circuits and projects, and generally stuff that physically interacts with the world around us. \
         This site has a little bit about various school and personal projects I have completed. Outside of school, I love music, \
         especially playing guitar, recording and making music, and seeing live shows. I also really enjoy being outside and climbing, hiking, biking, and camping. I am involved in \
-        the outdoors community at MIT as the President of the Outing Club and am a graduate of the 2021 NOLS Summer Semester in Alaska program, where I spent 75 days mountaineering, \
+        the outdoors community at MIT as the \'22 - \'23 President of the Outing Club and am a graduate of the 2021 NOLS Summer Semester in Alaska program, where I spent 75 days mountaineering, \
         backpacking, and sea kayaking in the Alaskan backcountry. I grew up in Atlanta where I went to The Westminster Schools and now live in Boston while I attend MIT.'
     ]
 

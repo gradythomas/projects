@@ -21,11 +21,11 @@ export default function Outside(props) {
     useEffect(() => {
         props.setScrollFunctions({
             introScroll: (e) => window.scrollTo(0, introRef.current.offsetTop - 60),
-            scoutsScroll: (e) => window.scrollTo(0, scoutsRef.current.offsetTop - 60),
+            moondanceScroll: (e) => window.scrollTo(0, moondanceRef.current.offsetTop - 60), 
+            
             nolsScroll: (e) => window.scrollTo(0, nolsRef.current.offsetTop - 60), 
             mitocScroll: (e) => window.scrollTo(0, mitocRef.current.offsetTop - 60), 
-            moondanceScroll: (e) => window.scrollTo(0, moondanceRef.current.offsetTop - 60), 
-            certsScroll: (e) => window.scrollTo(0, certsRef.current.offsetTop - 60),
+            scoutsScroll: (e) => window.scrollTo(0, scoutsRef.current.offsetTop - 60)
         })
         props.setScrollButtons([
             'Intro',
@@ -62,7 +62,7 @@ export default function Outside(props) {
 // 
     const mitocText = [
         'MIT Outing Club',
-        'Talk about SoR, leading trips, and being the president'
+        'I have been involved on and off in different capacities with the MIT Outing Club since 2021. I first was a participant in School of Rock, a program that MITOC runs to transition people from climbing in the gym to climbing outside. I learned how to lead climb and spent a few weekends at Rumney, NH. It was a lot of a fun and I wanted to get more involved, so I did a WFA course that fall and became a leader for Winter School. Winter School is another one of MITOC\'s programs that runs during IAP, our January Term. Every weekend we would send out 50+ trips on different Winter activities like ice climbing, skiing, and winter hiking. I participated on two trips and lead a cross-country skiing trip and it was all around a great experience. That Spring I decided to run for President and was elected. While I was President, I ran monthly meetings, facilitated email discussions, and oversaw the move and storage of over one hundred thousand dollars worth of gear and equipment due to an emergency renovation of the Student Center. I am currently just a member of the club.'
     ]
 
     const moondanceText = [
